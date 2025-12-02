@@ -7,7 +7,15 @@ public class RAM : BaseComponent
     /// </summary>
     public double Speed { get; set; }
     public double Voltage { get; set; }
-    public double Timings { get; set; }
+
+    /// <summary>
+    /// XMP / EXPO Profile
+    /// </summary>
+    public bool HasXMPorExpo { get; set; }
+
+    /// <summary>
+    /// Measured in ns, lower is better
+    /// </summary>
     public double CASLatency { get; set; }
 
     /// <summary>

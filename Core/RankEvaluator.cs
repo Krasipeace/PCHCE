@@ -17,7 +17,6 @@ public class RankEvaluator
 
         return Math.Min(100, Math.Max(0, score));
     }
-}
 
     public double RankCpu(CPU cpu)
     {
@@ -25,7 +24,7 @@ public class RankEvaluator
         score += Math.Min(30, (cpu.Cores / 16.0) * 30);
         score += Math.Min(10, (cpu.Threads / 32.0) * 10);
         score += Math.Min(20, (cpu.BaseClockGhz / 4.7) * 20);
-        score += Math.Min(20, (cpu.TurboClockGhz / 6.0) * 20);
+        score += Math.Min(20, (cpu.TurboClockGhz / 5.7) * 20);
         score += Math.Min(20, (cpu.CacheSize / 64.0) * 20);
 
         return Math.Min(100, Math.Max(0, score));
@@ -39,7 +38,7 @@ public class RankEvaluator
         score += Math.Min(30, (gpu.Cores / 21760.0) * 30);
         score += Math.Min(30, (gpu.Capacity / 32.0) * 30);
         score += Math.Min(30, (gpu.Frequency / 3500.0) * 30);
-        score += Math.Min(5, (gpu.Interface / 512.0) * 5);
+        score += Math.Min(5, (gpu.Interface / 384.0) * 5);
 
         return Math.Min(100, Math.Max(0, score));
     }
@@ -52,7 +51,7 @@ public class RankEvaluator
 
         if (ram.CASLatency > 0)
         {
-            double clScore = Math.Max(0, 40 - ram.CASLatency);
+            double clScore = Math.Max(10, 40 - ram.CASLatency);
             score += Math.Min(25, clScore);
         }
 

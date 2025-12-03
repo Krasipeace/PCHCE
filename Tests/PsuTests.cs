@@ -5,12 +5,12 @@ using Core.Components;
 
 public class PsuTests
 {
-    private RankEvaluator _evaluator;
+    private RankEvaluator _rankEvaluator;
 
     [SetUp]
     public void Setup()
     {
-        _evaluator = new RankEvaluator();
+        _rankEvaluator = new RankEvaluator();
     }
 
     [Test]
@@ -22,7 +22,7 @@ public class PsuTests
             Efficiency = 90
         };
 
-        var result = _evaluator.RankPsu(psu);
+        var result = _rankEvaluator.RankPsu(psu);
         Assert.That(result, Is.AtLeast(80));
     }
 
@@ -30,7 +30,7 @@ public class PsuTests
     public void RankPsu_ZeroSpecs_ReturnsZero()
     {
         var psu = new PowerSupply();
-        var result = _evaluator.RankPsu(psu);
+        var result = _rankEvaluator.RankPsu(psu);
         Assert.That(result, Is.EqualTo(0));
     }
 
@@ -43,7 +43,7 @@ public class PsuTests
             Efficiency = 100
         };
 
-        var result = _evaluator.RankPsu(psu);
+        var result = _rankEvaluator.RankPsu(psu);
         Assert.That(result, Is.EqualTo(100));
     }
 
@@ -56,7 +56,7 @@ public class PsuTests
             Efficiency = 90
         };
 
-        var result = _evaluator.RankPsu(psu);
+        var result = _rankEvaluator.RankPsu(psu);
         Assert.That(result, Is.AtLeast(50));
     }
 
@@ -69,7 +69,7 @@ public class PsuTests
             Efficiency = 80
         };
 
-        var result = _evaluator.RankPsu(psu);
+        var result = _rankEvaluator.RankPsu(psu);
         Assert.That(result, Is.AtLeast(50));
     }
 }

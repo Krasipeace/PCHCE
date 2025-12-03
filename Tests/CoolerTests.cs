@@ -5,12 +5,12 @@ using Core.Components;
 
 public class CoolerTests
 {
-    private RankEvaluator _evaluator;
+    private RankEvaluator _rankEvaluator;
 
     [SetUp]
     public void Setup()
     {
-        _evaluator = new RankEvaluator();
+        _rankEvaluator = new RankEvaluator();
     }
 
     [Test]
@@ -23,7 +23,7 @@ public class CoolerTests
             CFM = 100
         };
 
-        var result = _evaluator.RankCooler(cooler);
+        var result = _rankEvaluator.RankCooler(cooler);
         Assert.That(result, Is.AtLeast(90));
     }
 
@@ -37,7 +37,7 @@ public class CoolerTests
             CFM = 67
         };
 
-        var result = _evaluator.RankCooler(cooler);
+        var result = _rankEvaluator.RankCooler(cooler);
         Assert.That(result, Is.InRange(40, 60));
     }
 
@@ -51,7 +51,7 @@ public class CoolerTests
             CFM = 44
         };
 
-        var result = _evaluator.RankCooler(cooler);
+        var result = _rankEvaluator.RankCooler(cooler);
         Assert.That(result, Is.LessThan(40));
     }
 
@@ -59,7 +59,7 @@ public class CoolerTests
     public void RankCooler_ZeroSpecs_ReturnsZero()
     {
         var cooler = new Cooler{ IsAir = true };
-        var result = _evaluator.RankCooler(cooler);
+        var result = _rankEvaluator.RankCooler(cooler);
         Assert.That(result, Is.EqualTo(0));
     }
 
@@ -73,7 +73,7 @@ public class CoolerTests
             CFM = 148
         };
 
-        var result = _evaluator.RankCooler(cooler);
+        var result = _rankEvaluator.RankCooler(cooler);
         Assert.That(result, Is.EqualTo(100));
     }
 }

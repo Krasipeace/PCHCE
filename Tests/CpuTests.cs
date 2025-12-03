@@ -5,12 +5,12 @@ using Core.Components;
 
 public class CpuTests
 {
-    private RankEvaluator _evaluator;
+    private RankEvaluator _rankEvaluator;
 
     [SetUp]
     public void Setup()
     {
-        _evaluator = new RankEvaluator();
+        _rankEvaluator = new RankEvaluator();
     }
 
     [Test]
@@ -25,7 +25,7 @@ public class CpuTests
             CacheSize = 64
         };
 
-        var result = _evaluator.RankCpu(cpu);
+        var result = _rankEvaluator.RankCpu(cpu);
         Assert.That(result, Is.AtLeast(90));
     }
 
@@ -41,7 +41,7 @@ public class CpuTests
             CacheSize = 32
         };
 
-        var result = _evaluator.RankCpu(cpu);
+        var result = _rankEvaluator.RankCpu(cpu);
         Assert.That(result, Is.InRange(40, 60));
     }
 
@@ -57,7 +57,7 @@ public class CpuTests
             CacheSize = 8
         };
 
-        var result = _evaluator.RankCpu(cpu);
+        var result = _rankEvaluator.RankCpu(cpu);
         Assert.That(result, Is.LessThan(40));
     }
 
@@ -65,7 +65,7 @@ public class CpuTests
     public void RankCpu_ZeroSpecs_ReturnsZero()
     {
         var cpu = new CPU();
-        var result = _evaluator.RankCpu(cpu);
+        var result = _rankEvaluator.RankCpu(cpu);
         Assert.That(result, Is.EqualTo(0));
     }
 
@@ -81,7 +81,7 @@ public class CpuTests
             CacheSize = 128
         };
 
-        var result = _evaluator.RankCpu(cpu);
+        var result = _rankEvaluator.RankCpu(cpu);
         Assert.That(result, Is.EqualTo(100));
     }
 }

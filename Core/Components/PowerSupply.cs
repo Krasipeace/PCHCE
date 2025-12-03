@@ -3,7 +3,7 @@ namespace Core.Components;
 public class PowerSupply : BaseComponent
 {
     /// <summary>
-    /// Compatibility Evaluation Marker
+    /// The way PSU sizes are denoted, such as ATX
     /// </summary>
     public string? FormFactor { get; set; }
 

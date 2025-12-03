@@ -5,12 +5,12 @@ using Core.Components;
 
 public class StorageTests
 {
-    private RankEvaluator _evaluator;
+    private RankEvaluator _rankEvaluator;
 
     [SetUp]
     public void Setup()
     {
-        _evaluator = new RankEvaluator();
+        _rankEvaluator = new RankEvaluator();
     }
 
     [Test]
@@ -23,7 +23,7 @@ public class StorageTests
             WriteSpeed = 13400
         };
 
-        var result = _evaluator.RankStorage(storage);
+        var result = _rankEvaluator.RankStorage(storage);
         Assert.That(result, Is.AtLeast(80));
     }
 
@@ -31,7 +31,7 @@ public class StorageTests
     public void RankStorage_ZeroSpecs_ReturnsZero()
     {
         var storage = new Storage();
-        var result = _evaluator.RankStorage(storage);
+        var result = _rankEvaluator.RankStorage(storage);
         Assert.That(result, Is.EqualTo(0));
     }
 
@@ -45,7 +45,7 @@ public class StorageTests
             WriteSpeed = 16000
         };
 
-        var result = _evaluator.RankStorage(storage);
+        var result = _rankEvaluator.RankStorage(storage);
         Assert.That(result, Is.EqualTo(100));
     }
 
@@ -59,7 +59,7 @@ public class StorageTests
             WriteSpeed = 450
         };
 
-        var result = _evaluator.RankStorage(storage);
+        var result = _rankEvaluator.RankStorage(storage);
         Assert.That(result, Is.AtLeast(5));
         Assert.That(result, Is.LessThanOrEqualTo(50));
     }
@@ -74,7 +74,7 @@ public class StorageTests
             WriteSpeed = 6300
         };
 
-        var result = _evaluator.RankStorage(storage);
+        var result = _rankEvaluator.RankStorage(storage);
         Assert.That(result, Is.AtLeast(50));
     }
 
@@ -88,7 +88,7 @@ public class StorageTests
             WriteSpeed = 130
         };
 
-        var result = _evaluator.RankStorage(storage);
+        var result = _rankEvaluator.RankStorage(storage);
         Assert.That(result, Is.AtLeast(1));
         Assert.That(result, Is.AtMost(10));
     }

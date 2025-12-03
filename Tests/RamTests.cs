@@ -5,12 +5,12 @@ using Core.Components;
 
 public class RamTests
 {
-    private RankEvaluator _evaluator;
+    private RankEvaluator _rankEvaluator;
 
     [SetUp]
     public void Setup()
     {
-        _evaluator = new RankEvaluator();
+        _rankEvaluator = new RankEvaluator();
     }
 
     [Test]
@@ -24,7 +24,7 @@ public class RamTests
             HasXMPorExpo = true
         };
 
-        var result = _evaluator.RankRam(ram);
+        var result = _rankEvaluator.RankRam(ram);
         Assert.That(result, Is.AtLeast(80));
     }
 
@@ -32,7 +32,7 @@ public class RamTests
     public void RankRam_ZeroSpecs_ReturnsZero()
     {
         var ram = new RAM();
-        var result = _evaluator.RankRam(ram);
+        var result = _rankEvaluator.RankRam(ram);
         Assert.That(result, Is.EqualTo(0));
     }
 
@@ -47,7 +47,7 @@ public class RamTests
             HasXMPorExpo = true
         };
 
-        var result = _evaluator.RankRam(ram);
+        var result = _rankEvaluator.RankRam(ram);
         Assert.That(result, Is.EqualTo(100));
     }
 }

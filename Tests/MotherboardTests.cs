@@ -5,12 +5,12 @@ using Core.Components;
 
 public class MotherboardTests
 {
-    private RankEvaluator _evaluator;
+    private RankEvaluator _rankEvaluator;
 
     [SetUp]
     public void Setup()
     {
-        _evaluator = new RankEvaluator();
+        _rankEvaluator = new RankEvaluator();
     }
 
     [Test]
@@ -22,7 +22,7 @@ public class MotherboardTests
             MaxMemoryCapacity = 512
         };
 
-        var result = _evaluator.RankMotherboard(motherboard);
+        var result = _rankEvaluator.RankMotherboard(motherboard);
         Assert.That(result, Is.AtLeast(80));
     }
 
@@ -30,7 +30,7 @@ public class MotherboardTests
     public void RankMotherboard_ZeroSpecs_ReturnsZero()
     {
         var motherboard = new Motherboard();
-        var result = _evaluator.RankMotherboard(motherboard);
+        var result = _rankEvaluator.RankMotherboard(motherboard);
         Assert.That(result, Is.EqualTo(0));
     }
 
@@ -43,7 +43,7 @@ public class MotherboardTests
             MaxMemoryCapacity = 1024
         };
 
-        var result = _evaluator.RankMotherboard(motherboard);
+        var result = _rankEvaluator.RankMotherboard(motherboard);
         Assert.That(result, Is.EqualTo(100));
     }
 }

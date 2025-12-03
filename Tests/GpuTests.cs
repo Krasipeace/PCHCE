@@ -5,12 +5,12 @@ using Core.Components;
 
 public class GpuTests
 {
-    private RankEvaluator _evaluator;
+    private RankEvaluator _rankEvaluator;
 
     [SetUp]
     public void Setup()
     {
-        _evaluator = new RankEvaluator();
+        _rankEvaluator = new RankEvaluator();
     }
 
     [Test]
@@ -25,7 +25,7 @@ public class GpuTests
             Interface = 512
         };
 
-        var result = _evaluator.RankGpu(gpu);
+        var result = _rankEvaluator.RankGpu(gpu);
         Assert.That(result, Is.AtLeast(80));
     }
 
@@ -33,7 +33,7 @@ public class GpuTests
     public void RankGpu_ZeroSpecs_ReturnsZero()
     {
         var gpu = new GPU();
-        var result = _evaluator.RankGpu(gpu);
+        var result = _rankEvaluator.RankGpu(gpu);
         Assert.That(result, Is.EqualTo(0));
     }
 
@@ -49,7 +49,7 @@ public class GpuTests
             Interface = 512
         };
 
-        var result = _evaluator.RankGpu(gpu);
+        var result = _rankEvaluator.RankGpu(gpu);
         Assert.That(result, Is.EqualTo(100));
     }
 
@@ -65,7 +65,7 @@ public class GpuTests
             Interface = 384
         };
 
-        var result = _evaluator.RankGpu(gpu);
+        var result = _rankEvaluator.RankGpu(gpu);
         Assert.That(result, Is.AtLeast(95));
     }
 
@@ -81,7 +81,7 @@ public class GpuTests
             Interface = 384
         };
 
-        var result = _evaluator.RankGpu(gpu);
+        var result = _rankEvaluator.RankGpu(gpu);
         Assert.That(result, Is.GreaterThan(66));
     }
 }

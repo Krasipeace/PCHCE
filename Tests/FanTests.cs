@@ -5,12 +5,12 @@ using Core.Components;
 
 public class FanTests
 {
-    private RankEvaluator _evaluator;
+    private RankEvaluator _rankEvaluator;
 
     [SetUp]
     public void Setup()
     {
-        _evaluator = new RankEvaluator();
+        _rankEvaluator = new RankEvaluator();
     }
 
     [Test]
@@ -22,7 +22,7 @@ public class FanTests
             RPM = 2500
         };
 
-        var result = _evaluator.RankFan(fan);
+        var result = _rankEvaluator.RankFan(fan);
         Assert.That(result, Is.AtLeast(90));
     }
 
@@ -35,7 +35,7 @@ public class FanTests
             RPM = 10000
         };
 
-        var result = _evaluator.RankFan(fan);
+        var result = _rankEvaluator.RankFan(fan);
         Assert.That(result, Is.EqualTo(100));
     }
 
@@ -44,7 +44,7 @@ public class FanTests
     {
         var fan = new Fan();
 
-        var result = _evaluator.RankFan(fan);
+        var result = _rankEvaluator.RankFan(fan);
         Assert.That(result, Is.EqualTo(0));
     }
 }

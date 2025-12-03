@@ -6,6 +6,7 @@ public class RAM : BaseComponent
     /// Measured in MT/s
     /// </summary>
     public double Speed { get; set; }
+
     public double Voltage { get; set; }
 
     /// <summary>

@@ -98,7 +98,7 @@ var myGpu = new GPU
 };
 
 double gpuScore = evaluator.RankGpu(myGpu);
-Console.WriteLine($"GPU Score: {gpuScore:F2} / 100");
+Console.WriteLine($"GPU Score: {gpuScore:F2}");
 ```
 
 </details>
@@ -116,7 +116,7 @@ var mySsd = new Storage
 };
 
 double storageScore = evaluator.RankStorage(mySsd);
-Console.WriteLine($"Storage Score: {storageScore:F2} / 100");
+Console.WriteLine($"Storage Score: {storageScore:F2}");
 ```
 
 </details>
@@ -130,11 +130,11 @@ var myMotherboard = new Motherboard
 {
     Name = "Motherboard",
     PCIeVersion = 5,
-    MaxMemoryCapacity = 512
+    MaxMemoryCapacity = 256
 };
 
 double motherboardScore = evaluator.RankMotherboard(myMotherboard);
-Console.WriteLine($"Motherboard Score: {motherboardScore:F2} / 100");
+Console.WriteLine($"Motherboard Score: {motherboardScore:F2}");
 ```
 
 </details>
@@ -143,16 +143,48 @@ Console.WriteLine($"Motherboard Score: {motherboardScore:F2} / 100");
 <summary>### 5. Ranking Power Supply(click to view example)</summary>
 
 ```csharp
-var evaluator = new RankEvaluator();
-var myPsu = new PowerSupply
+/// 8. Ranking PSU (API Call Example)
+///
+/// This example demonstrates how to rank a PSU by making an API call.
+///
+/// Assumes a POST endpoint at `/api/rank/psu` that accepts a JSON body
+/// like `{ "efficiencyRating": "80 Plus Gold", "wattage": 750 }`
+/// and returns a JSON response like `{ "score": 85.5 }`.
+///
+public class PsuRequest
 {
-    Name = "Power Supply",
-    Watts = 1200,
-    Efficiency = 80
-};
+    public int Wattage { get; set; }
+    public string EfficiencyRating { get; set; }
+}
 
-double psuScore = evaluator.RankPsu(myPsu);
-Console.WriteLine($"Power Supply Score: {psuScore:F2} / 100");
+public class PsuResponse
+{
+    public double Score { get; set; }
+}
+
+public async Task RankPsuViaApi()
+{
+    using var client = new HttpClient();
+    client.BaseAddress = new Uri("http://localhost:5000/"); // Replace with your API base URL
+
+    var psuData = new PsuRequest
+    {
+        Name = "Power Supply",
+        EfficiencyRating = 90,
+        Wattage = 1050
+    };
+
+    var jsonContent = JsonSerializer.Serialize(psuData);
+    var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+    var response = await client.PostAsync("api/rank/psu", content);
+    response.EnsureSuccessStatusCode(); 
+
+    var jsonResponse = await response.Content.ReadAsStringAsync();
+    var psuResult = JsonSerializer.Deserialize<PsuResponse>(jsonResponse);
+
+    Console.WriteLine($"API-ranked PSU Score: {psuResult.Score:F2}");
+    if (psuResult.Score >= 90) Console.WriteLine("Top-tier!");
+}
 ```
 
 </details>
@@ -164,15 +196,30 @@ Console.WriteLine($"Power Supply Score: {psuScore:F2} / 100");
 var evaluator = new RankEvaluator();
 var myCooler = new Cooler
 {
-    Name = "Cooler",
-    IsAir = true,
-    RPM = 1000,
-    CFM = 100
+    IsAir = false,
+    RPM = 3000,
+    CFM = 150
 };
 
 double coolerScore = evaluator.RankCooler(myCooler);
-Console.WriteLine($"Cooler Score: {coolerScore:F2} / 100");
+if (coolerScore >= 90) Console.WriteLine("Can FREEZE you!");
 ```
 
 </details>
 
+<details>
+<summary>### 7. Ranking Fan(click to view example)</summary>
+
+```csharp
+var evaluator = new RankEvaluator();
+var myFan = new Fan
+{
+    RPM = 2500,
+    CFM = 88.6
+};
+
+double fanScore = evaluator.RankFan(myFan);
+Console.WriteLine($"Fan Score: {fanScore:F2}");
+```
+
+</details>

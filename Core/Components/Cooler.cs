@@ -2,6 +2,9 @@
 
 public class Cooler : BaseComponent
 {
+    /// <summary>
+    /// True - air cooled, false - liquid cooled
+    /// </summary>
     public bool IsAir { get; set; }
 
     /// <summary>

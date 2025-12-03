@@ -2,6 +2,14 @@
 
 public abstract class BaseComponent
 {
+    /// <summary>
+    /// Name of the component
+    /// </summary>
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Power consumption in watts
+    /// </summary>
     public double? PowerConsumption {  get; set; }
 
     /// <summary>
@@ -18,9 +26,4 @@ public abstract class BaseComponent
     /// Width dimension in mm
     /// </summary>
     public double? Width { get; set; } 
-
-    /// <summary>
-    /// Used for known component that is better quality, but for some reason is ranked lower
-    /// </summary>
-    public int? UserRankIncrementor { get; set; }
 }

@@ -7,6 +7,9 @@ public class RAM : BaseComponent
     /// </summary>
     public double Speed { get; set; }
 
+    /// <summary>
+    /// Measured in Volts
+    /// </summary>
     public double Voltage { get; set; }
 
     /// <summary>
@@ -20,7 +23,7 @@ public class RAM : BaseComponent
     public double CASLatency { get; set; }
 
     /// <summary>
-    /// Compatibility Evaluation Marker
+    /// RAM type - DDR3, DDR4, DDR5 etc.
     /// </summary>
     public string? Type { get; set; }
     /// <summary>

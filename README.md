@@ -140,13 +140,9 @@ Console.WriteLine($"Motherboard Score: {motherboardScore:F2}");
 </details>
 
 <details>
-<summary>### 5. Ranking Power Supply(click to view example)</summary>
+<summary>### 5. Ranking Power Supply[API Call](click to view example)</summary>
 
 ```csharp
-/// 8. Ranking PSU (API Call Example)
-///
-/// This example demonstrates how to rank a PSU by making an API call.
-///
 /// Assumes a POST endpoint at `/api/rank/psu` that accepts a JSON body
 /// like `{ "efficiencyRating": "80 Plus Gold", "wattage": 750 }`
 /// and returns a JSON response like `{ "score": 85.5 }`.

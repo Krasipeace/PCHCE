@@ -26,4 +26,14 @@ public class GPU : BaseComponent
     /// 128/256/384bit etc.
     /// </summary>
     public int Interface { get; set; }
+
+    /// <summary>
+    /// PCIe version of GPU, if Pcie5.0 x8 >> 5
+    /// </summary>
+    public int PCIeVersion { get; set; } = 0;
+
+    /// <summary>
+    /// PCIe Lanes of the GPU, if PCIe5.0 x8 >> 8
+    /// </summary>
+    public int LanesNeeded { get; set; } = 0;
 }

@@ -7,9 +7,14 @@ public class Storage : BaseComponent
     public bool? IsNVMe { get; set; }
 
     /// <summary>
-    /// Compatibility Evaluation Marker
+    /// PcieType, if "Pcie5.0x4" =>> 5.0
     /// </summary>
-    public string? PcieType { get; set; }
+    public double? PcieType { get; set; }
+
+    /// <summary>
+    /// NVMe pcie lanes needed, if "Pcie5.0x4" >> 4
+    /// </summary>
+    public double? PcieLanes { get; set; }
 
     /// <summary>
     /// Read Speed in MB/s

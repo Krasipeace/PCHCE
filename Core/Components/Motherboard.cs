@@ -18,17 +18,23 @@ public class Motherboard : BaseComponent
     public string? Chipset { get; set; }
 
     /// <summary>
-    /// RAM Type 
+    /// RAM Type - DDR3, DDR4, DDR5 etc.
     /// </summary>
     public string? MemoryType { get; set; }
-
-    /// <summary>
-    /// PCIE Version
-    /// </summary>
-    public double PCIEVersion { get; set; }
 
     /// <summary>
     /// Maximum Memory Capacity
     /// </summary>
     public double MaxMemoryCapacity { get; set; }
+
+    /// <summary>
+    /// PCIE Version, if pcie5.0 >> 5.0
+    /// </summary>
+    public int PCIEVersion { get; set; } = 0;
+
+
+    /// <summary>
+    /// All Lanes available
+    /// </summary>
+    public int PcieLanes { get; set; } = 0;
 }

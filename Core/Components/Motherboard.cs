@@ -8,9 +8,9 @@ public class Motherboard : BaseComponent
     public string? Socket { get; set; }
 
     /// <summary>
-    /// Form Factor
+    /// Motherboard Form Factor, presented as enum
     /// </summary>
-    public string? FormFactor { get; set; }
+    public MbFormFactor MbFormFactor { get; set; }
 
     /// <summary>
     /// Chipset
@@ -37,4 +37,15 @@ public class Motherboard : BaseComponent
     /// All Lanes available
     /// </summary>
     public int PcieLanes { get; set; } = 0;
+}
+
+/// <summary>
+/// mini-itx = 0, micro-atx = 1, atx = 2, eatx = 3
+/// </summary>
+public enum MbFormFactor
+{
+    MiniITX = 0,
+    MicroATX = 1,
+    ATX = 2,
+    eATX = 3
 }

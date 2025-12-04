@@ -4,7 +4,16 @@ using Core.Components;
 
 public class CompatibilityEvaluator
 {
-
+    /// <summary>
+    /// PCIe Version enumarable for bottleneck compares
+    /// </summary>
+    private enum PCIeVersion
+    {
+        PCIe_3_0 = 3,
+        PCIe_4_0 = 4,
+        PCIe_5_0 = 5,
+        PCIe_6_0 = 6
+    }
 
     /// <summary>
     /// Compare sockets of cpu and motherboard
@@ -13,20 +22,6 @@ public class CompatibilityEvaluator
     /// <param name="motherboard"></param>
     /// <returns></returns>
     public bool CompareCpuMotherboardSockets(CPU cpu, Motherboard motherboard) => cpu.Socket == motherboard.Socket;
-
-    /// <summary>
-    /// Compare PCIe versions of GPU and motherboard
-    /// </summary>
-    /// <param name="gpu"></param>
-    /// <param name="motherboard"></param>
-    /// <returns></returns>
-    public bool CompareGpuMotherboardInterfaces(GPU gpu, Motherboard motherboard)
-    {
-        bool isPcieCompatible = gpu.PCIeVersion <= motherboard.PCIEVersion;
-        bool isPcieLanesEnough = gpu.LanesNeeded <= motherboard.PcieLanes;
-
-        return isPcieCompatible && isPcieLanesEnough;
-    }
 
     /// <summary>
     /// Compare GPU power consumption to PSU
@@ -69,18 +64,7 @@ public class CompatibilityEvaluator
     }
 
     /// <summary>
-    /// PCIe Version enumarable for bottleneck comparator
-    /// </summary>
-    private enum PCIeVersion
-    {
-        PCIe_3_0 = 3,
-        PCIe_4_0 = 4,
-        PCIe_5_0 = 5,
-        PCIe_6_0 = 6
-    }
-
-    /// <summary>
-    /// Helper function to get relative bandwidth power (e.g., 3.0=1, 4.0=2, 5.0=4)
+    /// Get relative bandwidth power (e.g., 3.0=1, 4.0=2, 5.0=4)
     /// </summary>
     private double GetRelativeBandwidthMultiplier(PCIeVersion version) => Math.Pow(2, (int)version - 3);
 }

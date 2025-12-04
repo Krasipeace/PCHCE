@@ -60,8 +60,6 @@ Each component type has a specific ranking method:
 
 ## Usage Examples
 
-Below are examples of how to use the `RankEvaluator` once the library is referenced as a DLL or NuGet package.
-
 <details>
 <summary>### 1. Ranking a CPU(click to view example)</summary>
 
@@ -98,7 +96,7 @@ var myGpu = new GPU
 };
 
 double gpuScore = evaluator.RankGpu(myGpu);
-Console.WriteLine($"GPU Score: {gpuScore:F2}");
+if (gpuScore >= 90) Console.WriteLine("Top-tier!");
 ```
 
 </details>
@@ -122,25 +120,7 @@ Console.WriteLine($"Storage Score: {storageScore:F2}");
 </details>
 
 <details>
-<summary>### 4. Ranking Motherboard(click to view example)</summary>
-
-```csharp
-var evaluator = new RankEvaluator();
-var myMotherboard = new Motherboard
-{
-    Name = "Motherboard",
-    PCIeVersion = 5,
-    MaxMemoryCapacity = 256
-};
-
-double motherboardScore = evaluator.RankMotherboard(myMotherboard);
-Console.WriteLine($"Motherboard Score: {motherboardScore:F2}");
-```
-
-</details>
-
-<details>
-<summary>### 5. Ranking Power Supply[API Call](click to view example)</summary>
+<summary>### 4. Ranking Power Supply[API Call](click to view example)</summary>
 
 ```csharp
 /// Assumes a POST endpoint at `/api/rank/psu` that accepts a JSON body
@@ -161,7 +141,7 @@ public class PsuResponse
 public async Task RankPsuViaApi()
 {
     using var client = new HttpClient();
-    client.BaseAddress = new Uri("http://localhost:5000/"); // Replace with your API base URL
+    client.BaseAddress = new Uri("http://localhost:5000/");
 
     var psuData = new PsuRequest
     {
@@ -174,48 +154,12 @@ public async Task RankPsuViaApi()
     var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
     var response = await client.PostAsync("api/rank/psu", content);
     response.EnsureSuccessStatusCode(); 
-
     var jsonResponse = await response.Content.ReadAsStringAsync();
     var psuResult = JsonSerializer.Deserialize<PsuResponse>(jsonResponse);
 
     Console.WriteLine($"API-ranked PSU Score: {psuResult.Score:F2}");
     if (psuResult.Score >= 90) Console.WriteLine("Top-tier!");
 }
-```
-
-</details>
-
-<details>
-<summary>### 6. Ranking Cooler(click to view example)</summary>
-
-```csharp
-var evaluator = new RankEvaluator();
-var myCooler = new Cooler
-{
-    IsAir = false,
-    RPM = 3000,
-    CFM = 150
-};
-
-double coolerScore = evaluator.RankCooler(myCooler);
-if (coolerScore >= 90) Console.WriteLine("Can FREEZE you!");
-```
-
-</details>
-
-<details>
-<summary>### 7. Ranking Fan(click to view example)</summary>
-
-```csharp
-var evaluator = new RankEvaluator();
-var myFan = new Fan
-{
-    RPM = 2500,
-    CFM = 88.6
-};
-
-double fanScore = evaluator.RankFan(myFan);
-Console.WriteLine($"Fan Score: {fanScore:F2}");
 ```
 
 </details>

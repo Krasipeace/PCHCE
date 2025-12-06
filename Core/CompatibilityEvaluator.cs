@@ -5,7 +5,7 @@ using Core.Components;
 public class CompatibilityEvaluator
 {
     /// <summary>
-    /// PCIe Version enumarable for bottleneck compares
+    /// PCIe Version enumarable
     /// </summary>
     private enum PCIeVersion
     {
@@ -57,11 +57,11 @@ public class CompatibilityEvaluator
     {
         if (cpu == null || cpu.PowerConsumption == null || 
             gpu == null || gpu.PowerConsumption == null || 
-            motherboard == null || motherboard.PowerConsumption == null || 
-            psu == null || psu.PowerConsumption == null) 
+            motherboard == null || motherboard.PowerConsumption == null ||
+            psu == null || psu?.Watts == null) 
             return false;
 
-        double? allComponentsWatts = cpu.PowerConsumption + gpu.PowerConsumption + motherboard.PowerConsumption + psu.PowerConsumption + 100.0;
+        double? allComponentsWatts = cpu.PowerConsumption + gpu.PowerConsumption + motherboard.PowerConsumption + 100.0;
 
         return allComponentsWatts <= psu.Watts;
     }
@@ -80,10 +80,10 @@ public class CompatibilityEvaluator
         if (cpu == null || cpu.PowerConsumption == null ||
             gpu == null || gpu.PowerConsumption == null ||
             motherboard == null || motherboard.PowerConsumption == null ||
-            psu == null || psu.PowerConsumption == null || customAdditionalWatts == null)
+            psu == null || psu?.Watts == null || customAdditionalWatts == null)
             return false;
 
-        double? allComponentsWatts = cpu.PowerConsumption + gpu.PowerConsumption + motherboard.PowerConsumption + psu.PowerConsumption + customAdditionalWatts;
+        double? allComponentsWatts = cpu.PowerConsumption + gpu.PowerConsumption + motherboard.PowerConsumption + customAdditionalWatts;
 
         return allComponentsWatts <= psu.PowerConsumption;
     }
@@ -145,8 +145,10 @@ public class CompatibilityEvaluator
     }
 
     /// <summary>
-    /// Get relative bandwidth power (e.g., 3.0=1, 4.0=2, 5.0=4)
+    /// Get relative bandwidth power
     /// </summary>
+    /// <param name="version">the selected version as enumable</param>
+    /// <returns>Math value of pcie version</returns>
     private double GetRelativeBandwidthMultiplier(PCIeVersion version) => Math.Pow(2, (int)version - 3);
 
     /// <summary>

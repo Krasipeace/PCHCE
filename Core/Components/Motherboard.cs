@@ -34,9 +34,14 @@ public class Motherboard : BaseComponent
 
 
     /// <summary>
-    /// All Lanes available
+    /// All Lanes available, Default is 16.
     /// </summary>
-    public int PcieLanes { get; set; } = 0;
+    public int PcieLanes { get; set; } = 16;
+
+    /// <summary>
+    /// Default is 0.
+    /// </summary>
+    public int M2Slots { get; set; } = 0;
 }
 
 /// <summary>

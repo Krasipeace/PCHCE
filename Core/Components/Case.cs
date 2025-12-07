@@ -15,7 +15,7 @@ public class Case : BaseComponent
     /// <summary>
     /// Form factor of the power supply
     /// </summary>
-    public string PsuFormFactor { get; set; } = string.Empty;
+    public ICollection<PsuFormFactor>? SupportedPsuFormFactors { get; set; }
 
     /// <summary>
     /// Maximum length of the GPU (in mm)
@@ -108,4 +108,16 @@ public enum CaseFormFactor
     MicroATX = 1,
     MidTower = 2,
     FullTower = 3
+}
+
+/// <summary>
+/// Power supply form factors (standart type dimensions)
+/// </summary>
+public enum PsuFormFactor
+{
+    ATX = 0,
+    SFX = 1,
+    SFX_L = 2,
+    TFX = 3,
+    FlexATX = 4
 }

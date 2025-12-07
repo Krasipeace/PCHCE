@@ -9,12 +9,12 @@ public class Storage : BaseComponent
     /// <summary>
     /// PcieType, if "Pcie5.0x4" =>> 5.0
     /// </summary>
-    public double? PcieType { get; set; }
+    public int? PcieType { get; set; }
 
     /// <summary>
     /// NVMe pcie lanes needed, if "Pcie5.0x4" >> 4
     /// </summary>
-    public double? PcieLanes { get; set; }
+    public int? PcieLanes { get; set; }
 
     /// <summary>
     /// Read Speed in MB/s

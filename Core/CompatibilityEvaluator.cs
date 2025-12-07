@@ -2,6 +2,8 @@
 
 using Core.Components;
 
+using System.Linq;
+
 public class CompatibilityEvaluator
 {
     /// <summary>
@@ -15,6 +17,11 @@ public class CompatibilityEvaluator
         PCIe_6_0 = 6
     }
 
+    #region Compare Physical dimensions characteristics
+
+    #endregion
+
+    #region Compare component characteristics
     /// <summary>
     /// Compare sockets of cpu and motherboard
     /// </summary>
@@ -23,9 +30,7 @@ public class CompatibilityEvaluator
     /// <returns></returns>
     public bool CompareCpuMotherboardSockets(CPU cpu, Motherboard motherboard)
     {
-        if (cpu == null || cpu.Socket == null || 
-            motherboard == null || motherboard.Socket == null) 
-            return false;
+        if (cpu.Socket == null || motherboard.Socket == null) return false;
 
         return Normalize(cpu.Socket) == Normalize(motherboard.Socket);
     }
@@ -38,9 +43,7 @@ public class CompatibilityEvaluator
     /// <returns></returns>
     public bool CompareGpuPsuWatts(GPU gpu, PowerSupply psu)
     {
-        if (gpu == null || gpu.PowerConsumption == null || 
-            psu == null || psu?.Watts == null) 
-            return false;
+        if (gpu.PowerConsumption == null || psu?.Watts == null)  return false;
 
         return gpu.PowerConsumption <= psu.Watts;
     }
@@ -55,10 +58,8 @@ public class CompatibilityEvaluator
     /// <returns>True, if PSU watts will be enough to power up the system.</returns>
     public bool CompareAllToPsuWatts(CPU cpu, GPU gpu, Motherboard motherboard, PowerSupply psu)
     {
-        if (cpu == null || cpu.PowerConsumption == null || 
-            gpu == null || gpu.PowerConsumption == null || 
-            motherboard == null || motherboard.PowerConsumption == null ||
-            psu == null || psu?.Watts == null) 
+        if (cpu.PowerConsumption == null || gpu.PowerConsumption == null || 
+            motherboard.PowerConsumption == null || psu?.Watts == null) 
             return false;
 
         double? allComponentsWatts = cpu.PowerConsumption + gpu.PowerConsumption + motherboard.PowerConsumption + 100.0;
@@ -77,15 +78,13 @@ public class CompatibilityEvaluator
     /// <returns>True, if PSU watts will be enough to power up the system.</returns>
     public bool CompareAllToPsuWatts(CPU cpu, GPU gpu, Motherboard motherboard, PowerSupply psu, double? customAdditionalWatts)
     {
-        if (cpu == null || cpu.PowerConsumption == null ||
-            gpu == null || gpu.PowerConsumption == null ||
-            motherboard == null || motherboard.PowerConsumption == null ||
-            psu == null || psu?.Watts == null || customAdditionalWatts == null)
+        if (cpu.PowerConsumption == null ||  gpu.PowerConsumption == null || 
+            motherboard.PowerConsumption == null || psu?.Watts == null || customAdditionalWatts == null)
             return false;
 
         double? allComponentsWatts = cpu.PowerConsumption + gpu.PowerConsumption + motherboard.PowerConsumption + customAdditionalWatts;
 
-        return allComponentsWatts <= psu.PowerConsumption;
+        return allComponentsWatts <= psu.Watts;
     }
 
     /// <summary>
@@ -104,13 +103,27 @@ public class CompatibilityEvaluator
     }
 
     /// <summary>
+    /// Compare PC case power supply form factors to power supply form factor.
+    /// </summary>
+    /// <param name="case">the pc case input.</param>
+    /// <param name="psu">the power supply unit input.</param>
+    /// <returns></returns>
+    public bool CompareCasePsuFormFactor(Case @case, PowerSupply psu)
+    {
+        if (@case?.SupportedPsuFormFactors == null || psu?.FormFactor == null) return false;
+        Normalize(psu.FormFactor);
+        if (!Enum.TryParse<PsuFormFactor>(psu.FormFactor, true, out var psuFactor)) return false;
+
+        return @case.SupportedPsuFormFactors.Contains(psuFactor);
+    }
+
+    /// <summary>
     /// Compare RAM and motherboard RAM types, it ignores upper/down cases, dashes, spaces
     /// </summary>
     /// <returns>True if compatible, false - not</returns>
     public bool CompareRamMotherboardMemoryType(RAM ram, Motherboard motherboard)
     {
-        if (ram == null || motherboard == null || 
-            ram.Type == null || motherboard.MemoryType == null) 
+        if (ram.Type == null || motherboard.MemoryType == null) 
             return false;
 
         return Normalize(ram.Type) == Normalize(motherboard.MemoryType);
@@ -124,9 +137,7 @@ public class CompatibilityEvaluator
     /// <returns>Returns score from 0(worst) to 100(best). Also returns 0 if any of the input objects are null.</returns>
     public double CompareGpuMotherboardInterfacesScore(GPU gpu, Motherboard motherboard)
     {
-        if (gpu == null ||  motherboard == null || 
-            gpu?.LanesNeeded == null || motherboard?.PcieLanes == null) 
-            return 0;
+        if (gpu?.LanesNeeded == null || motherboard?.PcieLanes == null) return 0;
 
         double actualLanesUsed = Math.Min(gpu.LanesNeeded, motherboard.PcieLanes);
 
@@ -143,7 +154,9 @@ public class CompatibilityEvaluator
 
         return finalScore;
     }
+    #endregion
 
+    #region Helper functions
     /// <summary>
     /// Get relative bandwidth power
     /// </summary>
@@ -157,4 +170,5 @@ public class CompatibilityEvaluator
     /// <param name="s">the string to check</param>
     /// <returns>Returns new string to uppercase without spaces/dashes</returns>
     private string Normalize(string s) => new string(s?.Where(c => !char.IsWhiteSpace(c) && c != '-').ToArray()).ToUpperInvariant();
+    #endregion
 }

@@ -28,7 +28,7 @@ public class Motherboard : BaseComponent
     public double MaxMemoryCapacity { get; set; }
 
     /// <summary>
-    /// PCIE Version, if pcie5.0 >> 5.0
+    /// PCIE Version, if pcie5.0 >> 5
     /// </summary>
     public int PCIEVersion { get; set; } = 0;
 

@@ -13,6 +13,7 @@ public class FanTests
         _rankEvaluator = new RankEvaluator();
     }
 
+    #region RankEvaluator Tests
     [Test]
     public void RankFan_HighSpecs_ReturnsAtLeast90()
     {
@@ -47,4 +48,5 @@ public class FanTests
         var result = _rankEvaluator.RankFan(fan);
         Assert.That(result, Is.EqualTo(0));
     }
+    #endregion
 }

@@ -10,7 +10,7 @@ public class Case : BaseComponent
     /// <summary>
     /// Maximum height of the CPU cooler
     /// </summary>
-    public double MaxCpuCoolerHeight { get; set; }
+    public double MaxCpuAirCoolerHeight { get; set; }
 
     /// <summary>
     /// Form factor of the power supply

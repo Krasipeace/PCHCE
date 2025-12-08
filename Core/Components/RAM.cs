@@ -27,7 +27,7 @@ public class RAM : BaseComponent
     /// </summary>
     public string? Type { get; set; }
     /// <summary>
-    /// Compatibility Evaluation Marker
+    /// True, if RAM is Low Profile(compatible with all Air Coolers)
     /// </summary>
     public bool? IsLowProfile { get; set; }
 }

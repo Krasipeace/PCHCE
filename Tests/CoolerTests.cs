@@ -13,6 +13,7 @@ public class CoolerTests
         _rankEvaluator = new RankEvaluator();
     }
 
+    #region RankEvaluator Tests
     [Test]
     public void RankCooler_HighEnd_ReturnsAtLeast90()
     {
@@ -76,4 +77,5 @@ public class CoolerTests
         var result = _rankEvaluator.RankCooler(cooler);
         Assert.That(result, Is.EqualTo(100));
     }
+    #endregion
 }

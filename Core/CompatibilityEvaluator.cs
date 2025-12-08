@@ -88,7 +88,7 @@ public class CompatibilityEvaluator
     }
 
     /// <summary>
-    /// Compare Case dimensions(form factor) and motherboard dimensions(form factor)
+    /// Compare Case form factor and motherboard form factor
     /// </summary>
     /// <param name="case">case form factor, from enum CaseFormFactor</param>
     /// <param name="motherboard">mb form factor, from enum MbFormFactor</param>
@@ -135,7 +135,7 @@ public class CompatibilityEvaluator
     /// <param name="gpu"></param>
     /// <param name="motherboard"></param>
     /// <returns>Returns score from 0(worst) to 100(best). Also returns 0 if any of the input objects are null.</returns>
-    public double CompareGpuMotherboardInterfacesScore(GPU gpu, Motherboard motherboard)
+    public double GetGpuMotherboardPcieInterfacesScore(GPU gpu, Motherboard motherboard)
     {
         if (gpu?.LanesNeeded == null || motherboard?.PcieLanes == null) return 0;
 
@@ -143,7 +143,7 @@ public class CompatibilityEvaluator
 
         if (gpu.LanesNeeded == 0) return 0;
 
-        double laneScore = (actualLanesUsed / gpu.LanesNeeded) * 100;
+        double laneScore = actualLanesUsed / gpu.LanesNeeded * 100;
         PCIeVersion bottleneckVersion = (PCIeVersion)Math.Min(gpu.PCIeVersion, motherboard.PCIEVersion);
         double bottleneckMultiplier = GetRelativeBandwidthMultiplier(bottleneckVersion);
         double gpuRequiredMultiplier = GetRelativeBandwidthMultiplier((PCIeVersion)gpu.PCIeVersion);

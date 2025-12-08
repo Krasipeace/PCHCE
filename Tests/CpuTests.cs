@@ -13,6 +13,7 @@ public class CpuTests
         _rankEvaluator = new RankEvaluator();
     }
 
+    #region RankEvaluator Tests
     [Test]
     public void RankCpu_HighEnd_ReturnsAtLeast90()
     {
@@ -84,4 +85,5 @@ public class CpuTests
         var result = _rankEvaluator.RankCpu(cpu);
         Assert.That(result, Is.EqualTo(100));
     }
+    #endregion
 }

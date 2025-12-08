@@ -7,7 +7,7 @@ public class Storage : BaseComponent
     public bool? IsNVMe { get; set; }
 
     /// <summary>
-    /// PcieType, if "Pcie5.0x4" =>> 5.0
+    /// PcieType, if "Pcie5.0x4" =>> 5
     /// </summary>
     public int? PcieType { get; set; }
 

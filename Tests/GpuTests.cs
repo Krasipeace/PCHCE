@@ -13,6 +13,7 @@ public class GpuTests
         _rankEvaluator = new RankEvaluator();
     }
 
+    #region RankEvaluator Tests
     [Test]
     public void RankGpu_HighSpecs_ReturnsAtLeast80()
     {
@@ -84,4 +85,5 @@ public class GpuTests
         var result = _rankEvaluator.RankGpu(gpu);
         Assert.That(result, Is.GreaterThan(66));
     }
+    #endregion
 }

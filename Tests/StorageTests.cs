@@ -13,6 +13,7 @@ public class StorageTests
         _rankEvaluator = new RankEvaluator();
     }
 
+    #region RankEvaluator Tests
     [Test]
     public void RankStorage_NVMe_HighSpecs_ReturnsAtLeast80()
     {
@@ -92,4 +93,5 @@ public class StorageTests
         Assert.That(result, Is.AtLeast(1));
         Assert.That(result, Is.AtMost(10));
     }
+    #endregion
 }

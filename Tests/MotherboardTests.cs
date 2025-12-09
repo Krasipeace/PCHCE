@@ -197,7 +197,7 @@ public class MotherboardTests
     }
 
     [Test]
-    public void EvalPsuCaseFormFactor_WhenFactorIsNotInTheCollection_ReturnsFalse()
+    public void EvalMotherboardCaseFormFactor_WhenFactorIsNotInTheCollection_ReturnsFalse()
     {
         var motherboard = new Motherboard
         {
@@ -219,7 +219,7 @@ public class MotherboardTests
     }
 
     [Test]
-    public void EvalPsuCaseFormFactor_WhenInputIsNull_ReturnsFalse()
+    public void EvalMotherboardCaseFormFactor_WhenInputIsNull_ReturnsFalse()
     {
         var motherboard = new Motherboard
         {

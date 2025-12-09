@@ -2,7 +2,6 @@
 
 using Core.Components;
 
-using System.Collections;
 using System.Linq;
 
 public class CompatibilityEvaluator
@@ -77,59 +76,21 @@ public class CompatibilityEvaluator
     /// <returns>Returns result True, if cooler[air(Height)/liquid(radiator)] can fit in the case.</returns>
     public bool CompareCaseCoolerType(Case @case, Cooler cooler)
     {
-        bool checker = false;
-
         if (cooler.IsAir)
         {
-            if (@case.MaxCpuAirCoolerHeight == 0 || @case?.MaxCpuAirCoolerHeight == null ||
-            cooler.Height == null || cooler.Height == 0)
-                checker = false;
+            if (@case?.MaxCpuAirCoolerHeight == null || cooler.Height == null) return false;
 
-            checker = @case?.MaxCpuAirCoolerHeight > cooler.Height;
-
-            return checker;
+            return @case?.MaxCpuAirCoolerHeight >= cooler.Height;
         }
-        else if (!cooler.IsAir)
+        else 
         {
-            if (cooler.RadiatorIs420 == true)
-            {
-                if (@case.CanFit420mmRadioatorOnTopPanel == true) checker = true;
-                if (@case.CanFit420mmRadioatorOnFrontPanel == true) checker = true;
-                if (@case.CanFit420mmRadioatorOnBottomPanel == true) checker = true;
-            }
-            else if (cooler.RadiatorIs360 == true)
-            {
-                if (@case.CanFit360mmRadioatorOnTopPanel == true) checker = true;
-                if (@case.CanFit360mmRadioatorOnFrontPanel == true) checker = true;
-                if (@case.CanFit360mmRadioatorOnBottomPanel == true) checker = true;
-            }
-            else if (cooler.RadiatorIs280 == true)
-            {
-                if (@case.CanFit280mmRadioatorOnTopPanel == true) checker = true;
-                if (@case.CanFit280mmRadioatorOnFrontPanel == true) checker = true;
-                if (@case.CanFit280mmRadioatorOnBottomPanel == true) checker = true;
-            }
-            else if (cooler.RadiatorIs240 == true)
-            {
-                if (@case.CanFit240mmRadioatorOnTopPanel == true) checker = true;
-                if (@case.CanFit240mmRadioatorOnFrontPanel == true) checker = true;
-                if (@case.CanFit240mmRadioatorOnBottomPanel == true) checker = true;
-            }
-            else if (cooler.RadiatorIs140 == true)
-            {
-                if (@case.CanFit140mmRadioatorOnTopPanel == true) checker = true;
-                if (@case.CanFit140mmRadioatorOnFrontPanel == true) checker = true;
-                if (@case.CanFit140mmRadioatorOnBottomPanel == true) checker = true;
-            }
-            else if (cooler.RadiatorIs120 == true)
-            {
-                if (@case.CanFit120mmRadioatorOnTopPanel == true) checker = true;
-                if (@case.CanFit120mmRadioatorOnFrontPanel == true) checker = true;
-                if (@case.CanFit120mmRadioatorOnBottomPanel == true) checker = true;
-            }
-        }
+            if (cooler.LiquidCoolerLengthMM == null || cooler.LiquidCoolerLengthMM.IsWhiteSpace()) return false;
 
-        return checker;
+            string requiredSize = cooler.LiquidCoolerLengthMM;
+            bool isFitting = @case.MaxRadiatorSizeByLocation?.Values.Any(mrSize => mrSize.Contains(requiredSize)) ?? false;
+
+            return isFitting;
+        }
     }
 
     /// <summary>

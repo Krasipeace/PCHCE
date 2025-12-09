@@ -18,32 +18,21 @@ public class Cooler : BaseComponent
     public double CFM { get; set; }
 
     /// <summary>
-    /// Radiator with 1 fan of 120mm
+    /// Converts Component Length into string. Used for Liquid Cooler Comparison.
     /// </summary>
-    public bool RadiatorIs120 { get; set; } = false;
+    public string? LiquidCoolerLengthMM
+    {
+        get => Length?.ToString();
+        set
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                Length = null;
+                return;
+            }
 
-    /// <summary>
-    /// Radiator with 1 fan of 140mm
-    /// </summary>
-    public bool RadiatorIs140 { get; set; } = false;
-
-    /// <summary>
-    /// Radiator with 2 fans of 120mm
-    /// </summary>
-    public bool RadiatorIs240 { get; set; } = false;
-
-    /// <summary>
-    /// Radiator with 2 fans of 140mm each
-    /// </summary>
-    public bool RadiatorIs280 { get; set; } = false;
-
-    /// <summary>
-    /// Radiator of 3 fans of 120mm each
-    /// </summary>
-    public bool RadiatorIs360 { get; set; } = false;
-
-    /// <summary>
-    /// Radiator of 3 fanse 140mm each
-    /// </summary>
-    public bool RadiatorIs420 { get; set; } = false;
+            if (double.TryParse(value, out double result)) Length = result;
+            else Length = null;
+        }
+    }
 }

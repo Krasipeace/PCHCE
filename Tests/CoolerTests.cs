@@ -6,11 +6,13 @@ using Core.Components;
 public class CoolerTests
 {
     private RankEvaluator _rankEvaluator;
+    private CompatibilityEvaluator _compatibilityEvaluator;
 
     [SetUp]
     public void Setup()
     {
         _rankEvaluator = new RankEvaluator();
+        _compatibilityEvaluator = new CompatibilityEvaluator();
     }
 
     #region RankEvaluator Tests
@@ -59,7 +61,7 @@ public class CoolerTests
     [Test]
     public void RankCooler_ZeroSpecs_ReturnsZero()
     {
-        var cooler = new Cooler{ IsAir = true };
+        var cooler = new Cooler { IsAir = true };
         var result = _rankEvaluator.RankCooler(cooler);
         Assert.That(result, Is.EqualTo(0));
     }
@@ -76,6 +78,94 @@ public class CoolerTests
 
         var result = _rankEvaluator.RankCooler(cooler);
         Assert.That(result, Is.EqualTo(100));
+    }
+    #endregion
+
+    #region Compatibility Evaluator Tests
+    [Test]
+    public void EvalCaseLiquidCoolerCanFitInCase_ReturnsTrue()
+    {
+        var @case = new Case
+        {
+            MaxRadiatorSizeByLocation = new Dictionary<string, string>
+            {
+                { "Top", "360" },
+                { "Front", "240" },
+                { "Rear", "120" }
+            }
+        };
+
+        var cooler = new Cooler
+        {
+            IsAir = false,
+            LiquidCoolerLengthMM = "360"
+        };
+
+        var cooler2 = new Cooler
+        {
+            IsAir = false,
+            LiquidCoolerLengthMM = "240"
+        };
+
+        var cooler3 = new Cooler
+        {
+            IsAir = false,
+            LiquidCoolerLengthMM = "120"
+        };
+
+        var result = _compatibilityEvaluator.CompareCaseCoolerType(@case, cooler);
+        var result2 = _compatibilityEvaluator.CompareCaseCoolerType(@case, cooler2);
+        var result3 = _compatibilityEvaluator.CompareCaseCoolerType(@case, cooler3);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(result, Is.True);
+            Assert.That(result2, Is.True);
+            Assert.That(result3, Is.True);
+        });
+    }
+
+    [Test]
+    public void EvalCaseLiquidCoolerCannotFit_ReturnsFalse()
+    {
+        var @case = new Case
+        {
+            MaxRadiatorSizeByLocation = new Dictionary<string, string>
+            {
+                { "Top", "360" },
+                { "Front", "240" },
+                { "Rear", "120" }
+            }
+        };
+
+        var cooler = new Cooler
+        {
+            IsAir = false,
+            LiquidCoolerLengthMM = "280"
+        };
+
+        var cooler2 = new Cooler
+        {
+            IsAir = false,
+            LiquidCoolerLengthMM = "420"
+        };
+
+        var cooler3 = new Cooler
+        {
+            IsAir = false,
+            LiquidCoolerLengthMM = "140"
+        };
+
+        var result = _compatibilityEvaluator.CompareCaseCoolerType(@case, cooler);
+        var result2 = _compatibilityEvaluator.CompareCaseCoolerType(@case, cooler2);
+        var result3 = _compatibilityEvaluator.CompareCaseCoolerType(@case, cooler3);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(result, Is.False);
+            Assert.That(result2, Is.False);
+            Assert.That(result3, Is.False);
+        });
     }
     #endregion
 }

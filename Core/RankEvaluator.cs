@@ -2,10 +2,12 @@
 
 using Core.Components;
 
+using System.Reflection.Metadata.Ecma335;
+
 public class RankEvaluator
 {
     /// <summary>
-    /// 
+    /// Evaluating Storage Drive, depending on type, read/write speeds.
     /// </summary>
     /// <param name="storage"></param>
     /// <returns>Math Evaluation of storage characteristics(0[worst] to 100[best]).</returns>
@@ -27,7 +29,7 @@ public class RankEvaluator
     /// Evaluating cpu, depending on its phys/logical cores, base/turbo clock frequency, cache size.
     /// </summary>
     /// <param name="cpu">the ranked cpu</param>
-    /// <returns>Math Evaluation of cpu characteristics(0[worst] to 100[best]).</returns>
+    /// <returns>Math Evaluation score of cpu characteristics(0[worst] to 100[best]).</returns>
     public double RankCpu(CPU cpu)
     {
         double score = 0;
@@ -44,7 +46,7 @@ public class RankEvaluator
     /// Evaluating gpu, depending on its graphical cores, memory capacity, frequency, physical interface.
     /// </summary>
     /// <param name="gpu">the ranked gpu</param>
-    /// <returns>Math Evaluation of gpu characteristics(0[worst] to 100[best]).</returns>
+    /// <returns>Math Evaluation score of gpu characteristics(0[worst] to 100[best]).</returns>
     public double RankGpu(GPU gpu)
     {
         double score = 0;
@@ -62,7 +64,7 @@ public class RankEvaluator
     /// Evaluating ram, depending on speed, voltage, latency and xmp/expo settings.
     /// </summary>
     /// <param name="ram">the ranked ram</param>
-    /// <returns>Math Evaluation of ram characteristics(0[worst] to 100[best]).</returns>
+    /// <returns>Math Evaluation score of ram characteristics(0[worst] to 100[best]).</returns>
     public double RankRam(RAM ram)
     {
         double score = 0;
@@ -84,7 +86,7 @@ public class RankEvaluator
     /// Evaluating Motherboard, depending on pci-e version and max memory capacity
     /// </summary>
     /// <param name="motherboard">the ranked motherboard</param>
-    /// <returns>Math Evaluation of motherboard characteristics(0[worst] to 100[best]).</returns>
+    /// <returns>Math Evaluation score of motherboard characteristics(0[worst] to 100[best]).</returns>
     public double RankMotherboard(Motherboard motherboard)
     {
         double score = 0;
@@ -98,7 +100,7 @@ public class RankEvaluator
     /// Evaluating PSU, depending on efficiency and overrall watts
     /// </summary>
     /// <param name="psu">the ranked psu</param>
-    /// <returns>Math Evaluation of psu characteristics(0[worst] to 100[best]).</returns>
+    /// <returns>Math Evaluation score of psu characteristics(0[worst] to 100[best]).</returns>
     public double RankPsu(PowerSupply psu)
     {
         double score = 0;
@@ -112,7 +114,7 @@ public class RankEvaluator
     /// Evaluating Cooler, depending on type, RPM, CFM
     /// </summary>
     /// <param name="cooler">the ranked cooler</param>
-    /// <returns>Math Evaluation of cooler characteristics(0[worst] to 100[best]).</returns>
+    /// <returns>Math Evaluation score of cooler characteristics(0[worst] to 100[best]).</returns>
     public double RankCooler(Cooler cooler)
     {
         double score = 0;
@@ -128,7 +130,7 @@ public class RankEvaluator
     /// Evaluating Fan, depending on RPM and CFM
     /// </summary>
     /// <param name="fan">the ranked fan</param>
-    /// <returns>Math Evaluation of fan characteristics(0[worst] to 100[best]).</returns>
+    /// <returns>Math Evaluation score of fan characteristics(0[worst] to 100[best]).</returns>
     public double RankFan(Fan fan)
     {
         double score = 0;

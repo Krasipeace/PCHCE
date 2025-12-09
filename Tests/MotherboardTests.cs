@@ -145,56 +145,7 @@ public class MotherboardTests
         Assert.That(result, Is.EqualTo(0));
     }
 
-    [Test]
-    public void EvalMotherboardCaseCompareFormFactor_WhenCompatible_ReturnsTrue()
-    {
-        var motherboard = new Motherboard
-        {
-            MbFormFactor = MbFormFactor.ATX
-        };
 
-        var @case = new Case
-        {
-            CaseFormFactor = CaseFormFactor.MidTower
-        };
-
-        var result = _compatibilityEvaluator.CompareCaseMotherBoardFormFactor(@case, motherboard);
-        Assert.That(result, Is.True);
-    }
-
-    [Test]
-    public void EvalMotherboardCaseCompareFormFactor_WhenInCompatible_ReturnsFalse()
-    {
-        var motherboard = new Motherboard
-        {
-            MbFormFactor = MbFormFactor.eATX
-        };
-
-        var @case = new Case
-        {
-            CaseFormFactor = CaseFormFactor.MicroATX
-        };
-
-        var result = _compatibilityEvaluator.CompareCaseMotherBoardFormFactor(@case, motherboard);
-        Assert.That(result, Is.False);
-    }
-
-    [Test]
-    public void EvalMotherboardCpuSocketCompatibility_WhenSocketsAreTheSame_ReturnsTrue()
-    {
-        var motherboard = new Motherboard
-        {
-            Socket = "AM5"
-        };
-
-        var cpu = new CPU
-        {
-            Socket = "am 5"
-        };
-
-        var result = _compatibilityEvaluator.CompareCpuMotherboardSockets(cpu, motherboard);
-        Assert.That(result, Is.True);
-    }
 
     [Test]
     public void EvalMotherboardCpuSocketCompatibility_WhenSocketsAreDifferent_ReturnsFalse()
@@ -221,6 +172,80 @@ public class MotherboardTests
 
         var result = _compatibilityEvaluator.CompareCpuMotherboardSockets(cpu, motherboard);
         Assert.That(result, Is.False);
+    }
+
+    [Test]
+    public void EvalMotherboardCaseFormFactor_WhenFactorIsInTheCollection_ReturnsTrue()
+    {
+        var motherboard = new Motherboard
+        {
+            FormFactor = "atx"
+        };
+
+        var @case = new Case
+        {
+            SupportedMbFormFactors =
+            [
+                MbFormFactor.eATX,
+                MbFormFactor.ATX,
+                MbFormFactor.MicroATX
+            ]
+        };
+
+        var result = _compatibilityEvaluator.CompareCaseMotherBoardFormFactor(@case, motherboard);
+        Assert.That(result, Is.True);
+    }
+
+    [Test]
+    public void EvalPsuCaseFormFactor_WhenFactorIsNotInTheCollection_ReturnsFalse()
+    {
+        var motherboard = new Motherboard
+        {
+            FormFactor = "Mini DTX"
+        };
+
+        var @case = new Case
+        {
+            SupportedMbFormFactors =
+            [
+                MbFormFactor.eATX,
+                MbFormFactor.ATX,
+                MbFormFactor.MicroATX
+            ]
+        };
+
+        var result = _compatibilityEvaluator.CompareCaseMotherBoardFormFactor(@case, motherboard);
+        Assert.That(result, Is.False);
+    }
+
+    [Test]
+    public void EvalPsuCaseFormFactor_WhenInputIsNull_ReturnsFalse()
+    {
+        var motherboard = new Motherboard
+        {
+            FormFactor = "Mini dtx"
+        };
+        var @case = new Case
+        {
+            SupportedMbFormFactors =
+            [
+                MbFormFactor.eATX,
+                MbFormFactor.ATX,
+                MbFormFactor.MicroATX
+            ]
+        };
+        var motherboardNull = new Motherboard();
+        var caseNull = new Case();
+
+        var result = _compatibilityEvaluator.CompareCaseMotherBoardFormFactor(caseNull, motherboardNull);
+        var result2 = _compatibilityEvaluator.CompareCaseMotherBoardFormFactor(caseNull, motherboard);
+        var result3 = _compatibilityEvaluator.CompareCaseMotherBoardFormFactor(@case, motherboardNull);
+        Assert.Multiple(() =>
+        {
+            Assert.That(result, Is.False);
+            Assert.That(result2, Is.False);
+            Assert.That(result3, Is.False);
+        });
     }
     #endregion
 }

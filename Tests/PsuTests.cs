@@ -236,8 +236,11 @@ public class PsuTests
 
         var result = _compatibilityEvaluator.CompareAllToPsuWatts(cpu, gpu, motherboard, psu);
         var result2 = _compatibilityEvaluator.CompareAllToPsuWatts(cpu, gpu, motherboard, psu, customAdditionalWatts);
-        Assert.That(result, Is.True);
-        Assert.That(result2, Is.True);
+        Assert.Multiple(() =>
+        {
+            Assert.That(result, Is.True);
+            Assert.That(result2, Is.True);
+        });
     }
 
     [Test]
@@ -270,8 +273,11 @@ public class PsuTests
 
         var result = _compatibilityEvaluator.CompareAllToPsuWatts(cpu, gpu, motherboard, psu);
         var result2 = _compatibilityEvaluator.CompareAllToPsuWatts(cpu, gpu, motherboard, psu, customAdditionalWatts);
-        Assert.That(result, Is.False);
-        Assert.That(result2, Is.False);
+        Assert.Multiple(() =>
+        {
+            Assert.That(result, Is.False);
+            Assert.That(result2, Is.False);
+        });
     }
 
     [Test]
@@ -298,8 +304,11 @@ public class PsuTests
 
         var result = _compatibilityEvaluator.CompareAllToPsuWatts(cpu, gpu, motherboard, psu);
         var result2 = _compatibilityEvaluator.CompareAllToPsuWatts(cpu, gpu, motherboard, psu, customAdditionalWatts);
-        Assert.That(result, Is.False);
-        Assert.That(result2, Is.False);
+        Assert.Multiple(() =>
+        {
+            Assert.That(result, Is.False);
+            Assert.That(result2, Is.False);
+        });
     }
     #endregion
 }

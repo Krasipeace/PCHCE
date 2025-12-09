@@ -10,7 +10,7 @@ public class Motherboard : BaseComponent
     /// <summary>
     /// Motherboard Form Factor, presented as enum
     /// </summary>
-    public MbFormFactor MbFormFactor { get; set; }
+    public string? FormFactor { get; set; }
 
     /// <summary>
     /// Chipset
@@ -42,15 +42,4 @@ public class Motherboard : BaseComponent
     /// Default is 0.
     /// </summary>
     public int M2Slots { get; set; } = 0;
-}
-
-/// <summary>
-/// mini-itx = 0, micro-atx = 1, atx = 2, eatx = 3
-/// </summary>
-public enum MbFormFactor
-{
-    MiniITX = 0,
-    MicroATX = 1,
-    ATX = 2,
-    eATX = 3
 }

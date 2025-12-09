@@ -13,9 +13,14 @@ public class Case : BaseComponent
     public double MaxCpuAirCoolerHeight { get; set; }
 
     /// <summary>
-    /// Form factor of the power supply
+    /// Form factors of supported power supplies of the case
     /// </summary>
     public ICollection<PsuFormFactor>? SupportedPsuFormFactors { get; set; }
+
+    /// <summary>
+    /// Form factors of supported motherboards of the case
+    /// </summary>
+    public ICollection<MbFormFactor>? SupportedMbFormFactors { get; set; }
 
     /// <summary>
     /// Maximum length of the GPU (in mm)
@@ -115,18 +120,19 @@ public class Case : BaseComponent
 }
 
 /// <summary>
-/// Mini-itx = 0, microatx = 1, midtower = 2, fulltower = 3
+/// Mini Tower = 0, Cube Tower = 1, Mid Tower = 2, Full Tower = 3, Ultra Tower = 4
 /// </summary>
 public enum CaseFormFactor
 {
-    MiniITX = 0,
-    MicroATX = 1,
+    MiniTower = 0,
+    CubeTower = 1,
     MidTower = 2,
-    FullTower = 3
+    FullTower = 3,
+    UltraTower = 4
 }
 
 /// <summary>
-/// Power supply form factors (standart type dimensions)
+/// ATX = 0, SFX = 1, SFX-L = 2, TFX = 3, Flex-ATX = 4
 /// </summary>
 public enum PsuFormFactor
 {
@@ -135,4 +141,18 @@ public enum PsuFormFactor
     SFX_L = 2,
     TFX = 3,
     FlexATX = 4
+}
+
+/// <summary>
+/// mini-itx = 0, micro-atx = 1, atx = 2, eatx = 3, minidtx = 4, XL-ATX = 5, EEB = 6
+/// </summary>
+public enum MbFormFactor
+{
+    MiniITX = 0,
+    MicroATX = 1,
+    ATX = 2,
+    eATX = 3,
+    MiniDTX = 4,
+    XLATX = 5,
+    EEB = 6,
 }

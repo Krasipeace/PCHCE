@@ -18,11 +18,56 @@ public class CompatibilityEvaluator
         PCIe_6_0 = 6
     }
 
-    #region Compare Physical dimensions characteristics
-
-    #endregion
-
     #region Compare component characteristics
+    /// <summary>
+    /// Compare Case form factor and motherboard form factor
+    /// </summary>
+    /// <param name="case">case form factor</param>
+    /// <param name="motherboard">mb form factor</param>
+    /// <returns>Returns True, if motherboard form factor is in case's supported motherboards list</returns>
+    public bool CompareCaseMotherBoardFormFactor(Case @case, Motherboard motherboard)
+    {
+        if (@case == null || @case?.SupportedMbFormFactors == null ||
+            motherboard == null || motherboard?.FormFactor == null)
+            return false;
+
+        Normalize(motherboard.FormFactor);
+
+        if (!Enum.TryParse<MbFormFactor>(motherboard.FormFactor, true, out var mbFormFactor)) return false;
+
+        return @case.SupportedMbFormFactors.Contains(mbFormFactor);
+    }
+
+    /// <summary>
+    /// Compare PC case power supply form factors to power supply form factor.
+    /// </summary>
+    /// <param name="case">the pc case input.</param>
+    /// <param name="psu">the power supply unit input.</param>
+    /// <returns></returns>
+    public bool CompareCasePsuFormFactor(Case @case, PowerSupply psu)
+    {
+        if (@case?.SupportedPsuFormFactors == null || psu?.FormFactor == null) return false;
+
+        Normalize(psu.FormFactor);
+
+        if (!Enum.TryParse<PsuFormFactor>(psu.FormFactor, true, out var psuFactor)) return false;
+
+        return @case.SupportedPsuFormFactors.Contains(psuFactor);
+    }
+
+    /// <summary>
+    /// Check Max PC Case Gpu Length to actual GPU Length
+    /// </summary>
+    /// <param name="case">the pc case input</param>
+    /// <param name="gpu">the gpu input</param>
+    /// <returns>Returns True, if GPU can fit the case, False - otherwise</returns>
+    public bool CompareCaseGpuLength(Case @case, GPU gpu)
+    {
+        if (@case?.MaxGpuLength == null || gpu.Length == null) return false;
+
+        return @case.MaxGpuLength >= gpu.Length;
+    }
+
     /// <summary>
     /// Compare Air Cooler Height to Case Air Cooler compatibility.
     /// Compare Liquid Cooler Radiator to Case Radiator spots.
@@ -30,11 +75,11 @@ public class CompatibilityEvaluator
     /// <param name="case">the case input</param>
     /// <param name="cooler">the cooler input</param>
     /// <returns>Returns result True, if cooler[air(Height)/liquid(radiator)] can fit in the case.</returns>
-    public bool CompareCaseCooler(Case @case, Cooler cooler)
+    public bool CompareCaseCoolerType(Case @case, Cooler cooler)
     {
         bool checker = false;
 
-        if (cooler.IsAir == true)
+        if (cooler.IsAir)
         {
             if (@case.MaxCpuAirCoolerHeight == 0 || @case?.MaxCpuAirCoolerHeight == null ||
             cooler.Height == null || cooler.Height == 0)
@@ -44,7 +89,7 @@ public class CompatibilityEvaluator
 
             return checker;
         }
-        else if (cooler.IsAir == false)
+        else if (!cooler.IsAir)
         {
             if (cooler.RadiatorIs420 == true)
             {
@@ -153,43 +198,12 @@ public class CompatibilityEvaluator
     }
 
     /// <summary>
-    /// Compare Case form factor and motherboard form factor
-    /// </summary>
-    /// <param name="case">case form factor, from enum CaseFormFactor</param>
-    /// <param name="motherboard">mb form factor, from enum MbFormFactor</param>
-    /// <returns>Returns True, if compatible. False, if null or incompatible</returns>
-    public bool CompareCaseMotherBoardFormFactor(Case @case, Motherboard motherboard)
-    {
-        if (@case == null || @case?.CaseFormFactor == null ||
-            motherboard == null || motherboard?.MbFormFactor == null)
-            return false;
-
-        return (int)@case.CaseFormFactor >= (int)motherboard.MbFormFactor;
-    }
-
-    /// <summary>
-    /// Compare PC case power supply form factors to power supply form factor.
-    /// </summary>
-    /// <param name="case">the pc case input.</param>
-    /// <param name="psu">the power supply unit input.</param>
-    /// <returns></returns>
-    public bool CompareCasePsuFormFactor(Case @case, PowerSupply psu)
-    {
-        if (@case?.SupportedPsuFormFactors == null || psu?.FormFactor == null) return false;
-        Normalize(psu.FormFactor);
-        if (!Enum.TryParse<PsuFormFactor>(psu.FormFactor, true, out var psuFactor)) return false;
-
-        return @case.SupportedPsuFormFactors.Contains(psuFactor);
-    }
-
-    /// <summary>
     /// Compare RAM and motherboard RAM types, it ignores upper/down cases, dashes, spaces
     /// </summary>
     /// <returns>True if compatible, false - not</returns>
     public bool CompareRamMotherboardMemoryType(RAM ram, Motherboard motherboard)
     {
-        if (ram.Type == null || motherboard.MemoryType == null)
-            return false;
+        if (ram.Type == null || motherboard.MemoryType == null) return false;
 
         return Normalize(ram.Type) == Normalize(motherboard.MemoryType);
     }

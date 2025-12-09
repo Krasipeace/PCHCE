@@ -110,7 +110,7 @@ public class CoolerTests
         var cooler3 = new Cooler
         {
             IsAir = false,
-            Length = 120
+            LiquidCoolerLengthMM = "120"
         };
 
         var result = _compatibilityEvaluator.CompareCaseCoolerType(@case, cooler);
@@ -153,7 +153,7 @@ public class CoolerTests
         var cooler3 = new Cooler
         {
             IsAir = false,
-            Length = 140
+            LiquidCoolerLengthMM = "140"
         };
 
         var result = _compatibilityEvaluator.CompareCaseCoolerType(@case, cooler);
@@ -166,6 +166,42 @@ public class CoolerTests
             Assert.That(result2, Is.False);
             Assert.That(result3, Is.False);
         });
+    }
+
+    [Test]
+    public void EvalCaseAirCoolerCanFit_ReturnsTrue()
+    {
+        var cooler = new Cooler
+        {
+            IsAir = true,
+            Height = 150
+        };
+
+        var @case = new Case
+        {
+            MaxCpuAirCoolerHeight = 165
+        };
+
+        var result = _compatibilityEvaluator.CompareCaseCoolerType(@case, cooler);
+        Assert.That(result, Is.True);
+    }
+
+    [Test]
+    public void EvalCaseAirCoolerCannotFit_ReturnsFalse()
+    {
+        var @case = new Case
+        {
+            MaxCpuAirCoolerHeight = 150
+        };
+
+        var cooler = new Cooler
+        {
+            IsAir = true,
+            Height = 160
+        };
+
+        var result = _compatibilityEvaluator.CompareCaseCoolerType(@case, cooler);
+        Assert.That(result, Is.False);
     }
     #endregion
 }

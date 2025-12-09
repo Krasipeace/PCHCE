@@ -2,6 +2,7 @@
 
 using Core.Components;
 
+using System.Collections;
 using System.Linq;
 
 public class CompatibilityEvaluator
@@ -23,6 +24,70 @@ public class CompatibilityEvaluator
 
     #region Compare component characteristics
     /// <summary>
+    /// Compare Air Cooler Height to Case Air Cooler compatibility.
+    /// Compare Liquid Cooler Radiator to Case Radiator spots.
+    /// </summary>
+    /// <param name="case">the case input</param>
+    /// <param name="cooler">the cooler input</param>
+    /// <returns>Returns result True, if cooler[air(Height)/liquid(radiator)] can fit in the case.</returns>
+    public bool CompareCaseCooler(Case @case, Cooler cooler)
+    {
+        bool checker = false;
+
+        if (cooler.IsAir == true)
+        {
+            if (@case.MaxCpuAirCoolerHeight == 0 || @case?.MaxCpuAirCoolerHeight == null ||
+            cooler.Height == null || cooler.Height == 0)
+                checker = false;
+
+            checker = @case?.MaxCpuAirCoolerHeight > cooler.Height;
+
+            return checker;
+        }
+        else if (cooler.IsAir == false)
+        {
+            if (cooler.RadiatorIs420 == true)
+            {
+                if (@case.CanFit420mmRadioatorOnTopPanel == true) checker = true;
+                if (@case.CanFit420mmRadioatorOnFrontPanel == true) checker = true;
+                if (@case.CanFit420mmRadioatorOnBottomPanel == true) checker = true;
+            }
+            else if (cooler.RadiatorIs360 == true)
+            {
+                if (@case.CanFit360mmRadioatorOnTopPanel == true) checker = true;
+                if (@case.CanFit360mmRadioatorOnFrontPanel == true) checker = true;
+                if (@case.CanFit360mmRadioatorOnBottomPanel == true) checker = true;
+            }
+            else if (cooler.RadiatorIs280 == true)
+            {
+                if (@case.CanFit280mmRadioatorOnTopPanel == true) checker = true;
+                if (@case.CanFit280mmRadioatorOnFrontPanel == true) checker = true;
+                if (@case.CanFit280mmRadioatorOnBottomPanel == true) checker = true;
+            }
+            else if (cooler.RadiatorIs240 == true)
+            {
+                if (@case.CanFit240mmRadioatorOnTopPanel == true) checker = true;
+                if (@case.CanFit240mmRadioatorOnFrontPanel == true) checker = true;
+                if (@case.CanFit240mmRadioatorOnBottomPanel == true) checker = true;
+            }
+            else if (cooler.RadiatorIs140 == true)
+            {
+                if (@case.CanFit140mmRadioatorOnTopPanel == true) checker = true;
+                if (@case.CanFit140mmRadioatorOnFrontPanel == true) checker = true;
+                if (@case.CanFit140mmRadioatorOnBottomPanel == true) checker = true;
+            }
+            else if (cooler.RadiatorIs120 == true)
+            {
+                if (@case.CanFit120mmRadioatorOnTopPanel == true) checker = true;
+                if (@case.CanFit120mmRadioatorOnFrontPanel == true) checker = true;
+                if (@case.CanFit120mmRadioatorOnBottomPanel == true) checker = true;
+            }
+        }
+
+        return checker;
+    }
+
+    /// <summary>
     /// Compare sockets of cpu and motherboard
     /// </summary>
     /// <param name="cpu"></param>
@@ -43,7 +108,7 @@ public class CompatibilityEvaluator
     /// <returns></returns>
     public bool CompareGpuPsuWatts(GPU gpu, PowerSupply psu)
     {
-        if (gpu.PowerConsumption == null || psu?.Watts == null)  return false;
+        if (gpu.PowerConsumption == null || psu?.Watts == null) return false;
 
         return gpu.PowerConsumption <= psu.Watts;
     }
@@ -58,8 +123,8 @@ public class CompatibilityEvaluator
     /// <returns>True, if PSU watts will be enough to power up the system.</returns>
     public bool CompareAllToPsuWatts(CPU cpu, GPU gpu, Motherboard motherboard, PowerSupply psu)
     {
-        if (cpu.PowerConsumption == null || gpu.PowerConsumption == null || 
-            motherboard.PowerConsumption == null || psu?.Watts == null) 
+        if (cpu.PowerConsumption == null || gpu.PowerConsumption == null ||
+            motherboard.PowerConsumption == null || psu?.Watts == null)
             return false;
 
         double? allComponentsWatts = cpu.PowerConsumption + gpu.PowerConsumption + motherboard.PowerConsumption + 100.0;
@@ -78,7 +143,7 @@ public class CompatibilityEvaluator
     /// <returns>True, if PSU watts will be enough to power up the system.</returns>
     public bool CompareAllToPsuWatts(CPU cpu, GPU gpu, Motherboard motherboard, PowerSupply psu, double? customAdditionalWatts)
     {
-        if (cpu.PowerConsumption == null ||  gpu.PowerConsumption == null || 
+        if (cpu.PowerConsumption == null || gpu.PowerConsumption == null ||
             motherboard.PowerConsumption == null || psu?.Watts == null || customAdditionalWatts == null)
             return false;
 
@@ -95,8 +160,8 @@ public class CompatibilityEvaluator
     /// <returns>Returns True, if compatible. False, if null or incompatible</returns>
     public bool CompareCaseMotherBoardFormFactor(Case @case, Motherboard motherboard)
     {
-        if (@case == null || @case?.CaseFormFactor == null || 
-            motherboard == null || motherboard?.MbFormFactor == null) 
+        if (@case == null || @case?.CaseFormFactor == null ||
+            motherboard == null || motherboard?.MbFormFactor == null)
             return false;
 
         return (int)@case.CaseFormFactor >= (int)motherboard.MbFormFactor;
@@ -123,7 +188,7 @@ public class CompatibilityEvaluator
     /// <returns>True if compatible, false - not</returns>
     public bool CompareRamMotherboardMemoryType(RAM ram, Motherboard motherboard)
     {
-        if (ram.Type == null || motherboard.MemoryType == null) 
+        if (ram.Type == null || motherboard.MemoryType == null)
             return false;
 
         return Normalize(ram.Type) == Normalize(motherboard.MemoryType);

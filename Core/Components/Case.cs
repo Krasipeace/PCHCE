@@ -30,7 +30,7 @@ public class Case : BaseComponent
     /// <summary>
     /// Max Radiator Size By Location: "Top", "Bottom", "Front"
     /// </summary>
-    public Dictionary<string, string> MaxRadiatorSizeByLocation { get; set; } = [];
+    public Dictionary<string, List<string>> MaxRadiatorSizeByLocation { get; set; } = [];
 
 }
 

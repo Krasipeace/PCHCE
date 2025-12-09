@@ -87,30 +87,30 @@ public class CoolerTests
     {
         var @case = new Case
         {
-            MaxRadiatorSizeByLocation = new Dictionary<string, string>
+            MaxRadiatorSizeByLocation = new Dictionary<string, List<string>>
             {
-                { "Top", "360" },
-                { "Front", "240" },
-                { "Rear", "120" }
+                { "Top", new List<string> { "360", "280", "240" } },
+                { "Front", new List<string> { "420", "360", "280" } },
+                { "Rear", new List<string> { "120" } }
             }
         };
 
         var cooler = new Cooler
         {
             IsAir = false,
-            LiquidCoolerLengthMM = "360"
+            Length = 360
         };
 
         var cooler2 = new Cooler
         {
             IsAir = false,
-            LiquidCoolerLengthMM = "240"
+            Length = 280
         };
 
         var cooler3 = new Cooler
         {
             IsAir = false,
-            LiquidCoolerLengthMM = "120"
+            Length = 120
         };
 
         var result = _compatibilityEvaluator.CompareCaseCoolerType(@case, cooler);
@@ -130,30 +130,30 @@ public class CoolerTests
     {
         var @case = new Case
         {
-            MaxRadiatorSizeByLocation = new Dictionary<string, string>
+            MaxRadiatorSizeByLocation = new Dictionary<string, List<string>> 
             {
-                { "Top", "360" },
-                { "Front", "240" },
-                { "Rear", "120" }
+                { "Top", new List<string> { "360", "120", "240" } },
+                { "Front", new List<string> {"360", "240" } },
+                { "Rear", new List<string> { "120" } }
             }
         };
 
         var cooler = new Cooler
         {
             IsAir = false,
-            LiquidCoolerLengthMM = "280"
+            Length = 280
         };
 
         var cooler2 = new Cooler
         {
             IsAir = false,
-            LiquidCoolerLengthMM = "420"
+            Length = 420
         };
 
         var cooler3 = new Cooler
         {
             IsAir = false,
-            LiquidCoolerLengthMM = "140"
+            Length = 140
         };
 
         var result = _compatibilityEvaluator.CompareCaseCoolerType(@case, cooler);

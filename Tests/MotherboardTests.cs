@@ -247,5 +247,46 @@ public class MotherboardTests
             Assert.That(result3, Is.False);
         });
     }
+
+    [Test]
+    public void EvalMotherboardCaseFormFactor_ReturnsTrue_WhenFormFactorMatchesIgnoringCaseSpacesAndDashes()
+    {
+        var supportedFormFactors = new[]
+        {
+            "ATX",
+            "Micro-ATX",
+            " Mini ITX "
+        };
+
+        var motherboardFormFactor = "mini-itx";
+
+        var result = _compatibilityEvaluator.CompareCaseMotherBoardFormFactor(supportedFormFactors, motherboardFormFactor);
+        Assert.That(result, Is.True);
+    }
+
+    [Test]
+    public void EvalMotherboardCaseFormFactor_ReturnsFalse_WhenFormFactorIsNotSupported()
+    {
+        var supportedFormFactors = new[]
+        {
+            "ATX",
+            "Micro-ATX"
+        };
+
+        var motherboardFormFactor = "E-ATX";
+
+        var result = _compatibilityEvaluator.CompareCaseMotherBoardFormFactor(supportedFormFactors, motherboardFormFactor);
+        Assert.That(result, Is.False);
+    }
+
+    [Test]
+    public void EvalMotherboardCaseFormFactor_ReturnsFalse_WhenInputsAreInvalid()
+    {
+        var emptyFormFactors = Array.Empty<string>();
+        string? motherboardFormFactor = null;
+
+        var result = _compatibilityEvaluator.CompareCaseMotherBoardFormFactor(emptyFormFactors, motherboardFormFactor!);
+        Assert.That(result, Is.False);
+    }
     #endregion
 }

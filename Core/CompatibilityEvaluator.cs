@@ -2,6 +2,7 @@
 
 using Core.Components;
 
+using System.IO.IsolatedStorage;
 using System.Linq;
 
 public class CompatibilityEvaluator
@@ -19,22 +20,36 @@ public class CompatibilityEvaluator
 
     #region Compare component characteristics
     /// <summary>
-    /// Compare Case form factor and motherboard form factor
+    /// Compare Case form factor and motherboard form factor from objects
     /// </summary>
-    /// <param name="case">case form factor</param>
-    /// <param name="motherboard">mb form factor</param>
+    /// <param name="case">case object</param>
+    /// <param name="motherboard">motherboard object</param>
     /// <returns>Returns True, if motherboard form factor is in case's supported motherboards list</returns>
     public bool CompareCaseMotherBoardFormFactor(Case @case, Motherboard motherboard)
     {
-        if (@case == null || @case?.SupportedMbFormFactors == null ||
-            motherboard == null || motherboard?.FormFactor == null)
-            return false;
+        if (@case?.SupportedMbFormFactors == null || motherboard?.FormFactor == null) return false;
 
         Normalize(motherboard.FormFactor);
 
         if (!Enum.TryParse<MbFormFactor>(motherboard.FormFactor, true, out var mbFormFactor)) return false;
 
         return @case.SupportedMbFormFactors.Contains(mbFormFactor);
+    }
+
+    /// <summary>
+    /// Compare Case form factor and motherboard form factor as strings
+    /// </summary>
+    /// <param name="caseMbFormFactors">case form factor's array</param>
+    /// <param name="motherboardFormFactor">motherboard form factor</param>
+    /// <returns>Returns True, if motherboard form factor is in case's supported motherboards list</returns>
+    public bool CompareCaseMotherBoardFormFactor(string[] caseMbFormFactors, string motherboardFormFactor)
+    {
+        if (caseMbFormFactors.Length == 0 || motherboardFormFactor is null) return false;
+
+        var normalizedMbFormfactors = Normalize(caseMbFormFactors);
+        var normalizedMbFormfactor = Normalize(motherboardFormFactor);
+
+        return normalizedMbFormfactors.Contains(normalizedMbFormfactor);
     }
 
     /// <summary>
@@ -205,10 +220,36 @@ public class CompatibilityEvaluator
     private double GetRelativeBandwidthMultiplier(PCIeVersion version) => Math.Pow(2, (int)version - 3);
 
     /// <summary>
+    /// Check string[] for upper/down/spaces/dashes and ignores them
+    /// </summary>
+    /// <param name="s">the string to check</param>
+    /// <returns>Returns new string to uppercase without spaces/dashes</returns>
+    private static string[] Normalize(string[] values) => values?.Select(Normalize).ToArray() ?? [];
+
+    /// <summary>
     /// Check string for upper/down/spaces/dashes and ignores them
     /// </summary>
     /// <param name="s">the string to check</param>
     /// <returns>Returns new string to uppercase without spaces/dashes</returns>
-    private string Normalize(string s) => new string(s?.Where(c => !char.IsWhiteSpace(c) && c != '-').ToArray()).ToUpperInvariant();
+    private static string Normalize(string? sValue) => sValue is null ? string.Empty : Normalize(sValue.AsSpan());
+
+    /// <summary>
+    /// Check chars for upper/down/spaces/dashes and ignores them
+    /// </summary>
+    /// <param name="s">the string to check</param>
+    /// <returns>Returns new string to uppercase without spaces/dashes</returns>
+    private static string Normalize(ReadOnlySpan<char> input)
+    {
+        if (input.IsEmpty) return string.Empty;
+
+        Span<char> buffer = stackalloc char[input.Length];
+        int index = 0;
+
+        foreach (var c in input)
+            if (!char.IsWhiteSpace(c) && c != '-')
+                buffer[index++] = char.ToUpperInvariant(c);
+
+        return new string(buffer[..index]);
+    }
     #endregion
 }

@@ -2,6 +2,7 @@ namespace Tests;
 
 using Core;
 using Core.Components;
+using Core.Enums;
 
 public class MotherboardTests
 {
@@ -21,7 +22,7 @@ public class MotherboardTests
     {
         var motherboard = new Motherboard
         {
-            PCIEVersion = 5,
+            PCIEVersion = PCIeVersion.PCIe_5_0,
             MaxMemoryCapacity = 512
         };
 
@@ -42,7 +43,7 @@ public class MotherboardTests
     {
         var motherboard = new Motherboard
         {
-            PCIEVersion = 6,
+            PCIEVersion = PCIeVersion.PCIe_6_0,
             MaxMemoryCapacity = 1024
         };
 
@@ -65,12 +66,12 @@ public class MotherboardTests
     {
         var motherboard = new Motherboard
         {
-            MemoryType = "DDR5"
+            MemoryType = MemoryType.DDR_5
         };
 
         var ram = new RAM
         {
-            Type = "DDR5"
+            Type = MemoryType.DDR_5
         };
 
         var result = _compatibilityEvaluator.CompareRamMotherboardMemoryType(ram, motherboard);
@@ -82,12 +83,12 @@ public class MotherboardTests
     {
         var motherboard = new Motherboard
         {
-            MemoryType = "DDR5"
+            MemoryType = MemoryType.DDR_5
         };
 
         var ram = new RAM
         {
-            Type = "DDR4"
+            Type = MemoryType.DDR_4
         };
 
         var result = _compatibilityEvaluator.CompareRamMotherboardMemoryType(ram, motherboard);
@@ -99,12 +100,12 @@ public class MotherboardTests
     {
         var motherboard = new Motherboard
         {
-            MemoryType = "DDR-5"
+            MemoryType = MemoryType.DDR_5
         };
 
         var ram = new RAM
         {
-            Type = "ddr 5"
+            Type = MemoryType.DDR_5
         };
 
         var result = _compatibilityEvaluator.CompareRamMotherboardMemoryType(ram, motherboard);
@@ -121,13 +122,13 @@ public class MotherboardTests
     {
         var motherboard = new Motherboard
         {
-            PCIEVersion = 5,
+            PCIEVersion = PCIeVersion.PCIe_5_0,
             PcieLanes = 16
         };
 
         var gpu = new GPU
         {
-            PCIeVersion = 5,
+            PCIeVersion = PCIeVersion.PCIe_5_0,
             LanesNeeded = 16
         };
 
@@ -179,7 +180,7 @@ public class MotherboardTests
     {
         var motherboard = new Motherboard
         {
-            FormFactor = "atx"
+            FormFactor = MbFormFactor.ATX
         };
 
         var @case = new Case
@@ -201,7 +202,7 @@ public class MotherboardTests
     {
         var motherboard = new Motherboard
         {
-            FormFactor = "Mini DTX"
+            FormFactor = MbFormFactor.MiniITX
         };
 
         var @case = new Case
@@ -223,7 +224,7 @@ public class MotherboardTests
     {
         var motherboard = new Motherboard
         {
-            FormFactor = "Mini dtx"
+            FormFactor = MbFormFactor.MiniDTX
         };
         var @case = new Case
         {

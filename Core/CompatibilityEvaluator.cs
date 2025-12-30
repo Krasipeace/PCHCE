@@ -1,23 +1,12 @@
 ﻿namespace Core;
 
 using Core.Components;
+using Core.Enums;
 
-using System.IO.IsolatedStorage;
 using System.Linq;
 
 public class CompatibilityEvaluator
 {
-    /// <summary>
-    /// PCIe Version enumarable
-    /// </summary>
-    private enum PCIeVersion
-    {
-        PCIe_3_0 = 3,
-        PCIe_4_0 = 4,
-        PCIe_5_0 = 5,
-        PCIe_6_0 = 6
-    }
-
     #region Compare component characteristics
     /// <summary>
     /// Compare Case form factor and motherboard form factor from objects
@@ -29,11 +18,7 @@ public class CompatibilityEvaluator
     {
         if (@case?.SupportedMbFormFactors == null || motherboard?.FormFactor == null) return false;
 
-        Normalize(motherboard.FormFactor);
-
-        if (!Enum.TryParse<MbFormFactor>(motherboard.FormFactor, true, out var mbFormFactor)) return false;
-
-        return @case.SupportedMbFormFactors.Contains(mbFormFactor);
+        return @case.SupportedMbFormFactors.Contains(motherboard.FormFactor);
     }
 
     /// <summary>
@@ -58,16 +43,7 @@ public class CompatibilityEvaluator
     /// <param name="case">the pc case input.</param>
     /// <param name="psu">the power supply unit input.</param>
     /// <returns></returns>
-    public bool CompareCasePsuFormFactor(Case @case, PowerSupply psu)
-    {
-        if (@case?.SupportedPsuFormFactors == null || psu?.FormFactor == null) return false;
-
-        Normalize(psu.FormFactor);
-
-        if (!Enum.TryParse<PsuFormFactor>(psu.FormFactor, true, out var psuFactor)) return false;
-
-        return @case.SupportedPsuFormFactors.Contains(psuFactor);
-    }
+    public bool CompareCasePsuFormFactor(Case @case, PowerSupply psu) => @case.SupportedPsuFormFactors.Contains(psu.FormFactor);
 
     /// <summary>
     /// Check Max PC Case Gpu Length to actual GPU Length
@@ -93,18 +69,15 @@ public class CompatibilityEvaluator
     {
         if (cooler.IsAir)
         {
-            if (@case?.MaxCpuAirCoolerHeight == null || cooler.Height == null) return false;
+            if (cooler.Height is null) return false;
 
-            return @case?.MaxCpuAirCoolerHeight >= cooler.Height;
+            return cooler.Height <= @case.MaxCpuAirCoolerHeight;
         }
-        else 
+        else
         {
-            if (cooler.LiquidCoolerLengthMM == null || cooler.LiquidCoolerLengthMM.IsWhiteSpace()) return false;
+            if (cooler.RadiatorSize is null) return false;
 
-            string requiredSize = cooler.LiquidCoolerLengthMM;
-            bool isFitting = @case.MaxRadiatorSizeByLocation?.Values.Any(mrSize => mrSize.Contains(requiredSize)) ?? false;
-
-            return isFitting;
+            return @case.MaxRadiatorSizeByLocation.Values.Any(sizes => sizes.Contains(cooler.RadiatorSize.Value));
         }
     }
 
@@ -177,12 +150,7 @@ public class CompatibilityEvaluator
     /// Compare RAM and motherboard RAM types, it ignores upper/down cases, dashes, spaces
     /// </summary>
     /// <returns>True if compatible, false - not</returns>
-    public bool CompareRamMotherboardMemoryType(RAM ram, Motherboard motherboard)
-    {
-        if (ram.Type == null || motherboard.MemoryType == null) return false;
-
-        return Normalize(ram.Type) == Normalize(motherboard.MemoryType);
-    }
+    public bool CompareRamMotherboardMemoryType(RAM ram, Motherboard motherboard) => ram.Type == motherboard.MemoryType;
 
     /// <summary>
     /// Compares PCIe versions of GPU and motherboard and returns a compatibility score (0-100).
@@ -199,7 +167,9 @@ public class CompatibilityEvaluator
         if (gpu.LanesNeeded == 0) return 0;
 
         double laneScore = actualLanesUsed / gpu.LanesNeeded * 100;
-        PCIeVersion bottleneckVersion = (PCIeVersion)Math.Min(gpu.PCIeVersion, motherboard.PCIEVersion);
+        double gpuScore = (int)gpu.PCIeVersion;
+        double motherboardScore = (int)motherboard.PCIEVersion;
+        PCIeVersion bottleneckVersion = (PCIeVersion)Math.Min(gpuScore, motherboardScore);
         double bottleneckMultiplier = GetRelativeBandwidthMultiplier(bottleneckVersion);
         double gpuRequiredMultiplier = GetRelativeBandwidthMultiplier((PCIeVersion)gpu.PCIeVersion);
         double versionScore = (bottleneckMultiplier / gpuRequiredMultiplier) * 100;

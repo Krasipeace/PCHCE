@@ -1,31 +1,34 @@
 ﻿namespace Core.Components;
 
+using Core.Enums;
+
 public class RAM : BaseComponent
 {
     /// <summary>
     /// Measured in MT/s
     /// </summary>
-    public double Speed { get; set; }
+    public double Speed { get; init; }
 
     /// <summary>
     /// Measured in Volts
     /// </summary>
-    public double Voltage { get; set; }
+    public double Voltage { get; init; }
 
     /// <summary>
     /// XMP / EXPO Profile
     /// </summary>
-    public bool HasXMPorExpo { get; set; }
+    public bool HasXMPorExpo { get; init; }
 
     /// <summary>
     /// Measured in ns, lower is better
     /// </summary>
-    public double CASLatency { get; set; }
+    public double CASLatency { get; init; }
 
     /// <summary>
-    /// RAM type - DDR3, DDR4, DDR5 etc.
+    /// RAM type - DDR3, DDR4, DDR5, etc.
     /// </summary>
-    public string? Type { get; set; }
+    public MemoryType Type { get; set; }
+
     /// <summary>
     /// True, if RAM is Low Profile(compatible with all Air Coolers)
     /// </summary>

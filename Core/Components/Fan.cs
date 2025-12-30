@@ -5,10 +5,10 @@ public class Fan : BaseComponent
     /// <summary>
     /// Fanspeed in rounds per minute
     /// </summary>
-    public double RPM { get; set; }
+    public double RPM { get; init; }
 
     /// <summary>
     /// Airflow in cubic feet per minute
     /// </summary>
-    public double CFM { get; set; }
+    public double CFM { get; init; }
 }

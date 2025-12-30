@@ -1,5 +1,7 @@
 ﻿namespace Core.Components;
 
+using Core.Enums;
+
 public class Cooler : BaseComponent
 {
     /// <summary>
@@ -10,29 +12,15 @@ public class Cooler : BaseComponent
     /// <summary>
     /// Fanspeed in rounds per minute
     /// </summary>
-    public double RPM { get; set; }
+    public double RPM { get; init; }
 
     /// <summary>
     /// Airflow in cubic feet per minute
     /// </summary>
-    public double CFM { get; set; }
+    public double CFM { get; init; }
 
     /// <summary>
-    /// Converts Component Length into string. Used for Liquid Cooler Comparison.
+    /// Size of Liquid Cooler Radiator in mm
     /// </summary>
-    public string? LiquidCoolerLengthMM
-    {
-        get => Length?.ToString();
-        set
-        {
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                Length = null;
-                return;
-            }
-
-            if (double.TryParse(value, out double result)) Length = result;
-            else Length = null;
-        }
-    }
+    public RadiatorSize? RadiatorSize { get; init; }
 }

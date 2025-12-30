@@ -2,6 +2,7 @@ namespace Tests;
 
 using Core;
 using Core.Components;
+using Core.Enums;
 
 public class CoolerTests
 {
@@ -87,30 +88,30 @@ public class CoolerTests
     {
         var @case = new Case
         {
-            MaxRadiatorSizeByLocation = new Dictionary<string, List<string>>
+            MaxRadiatorSizeByLocation = new Dictionary<RadiatorLocation, IReadOnlyCollection<RadiatorSize>>
             {
-                { "Top", new List<string> { "360", "280", "240" } },
-                { "Front", new List<string> { "420", "360", "280" } },
-                { "Rear", new List<string> { "120" } }
+                { RadiatorLocation.Top, new [] { RadiatorSize.R360, RadiatorSize.R280, RadiatorSize.R240 } },
+                { RadiatorLocation.Front, new [] { RadiatorSize.R420, RadiatorSize.R360, RadiatorSize.R280 } },
+                { RadiatorLocation.Rear, new [] { RadiatorSize.R120 } }
             }
         };
 
         var cooler = new Cooler
         {
             IsAir = false,
-            Length = 360
+            RadiatorSize = RadiatorSize.R360
         };
 
         var cooler2 = new Cooler
         {
             IsAir = false,
-            Length = 280
+            RadiatorSize = RadiatorSize.R280
         };
 
         var cooler3 = new Cooler
         {
             IsAir = false,
-            LiquidCoolerLengthMM = "120"
+            RadiatorSize = RadiatorSize.R120
         };
 
         var result = _compatibilityEvaluator.CompareCaseCoolerType(@case, cooler);
@@ -130,11 +131,9 @@ public class CoolerTests
     {
         var @case = new Case
         {
-            MaxRadiatorSizeByLocation = new Dictionary<string, List<string>> 
+            MaxRadiatorSizeByLocation = new Dictionary<RadiatorLocation, IReadOnlyCollection<RadiatorSize>>
             {
-                { "Top", new List<string> { "360", "120", "240" } },
-                { "Front", new List<string> {"360", "240" } },
-                { "Rear", new List<string> { "120" } }
+                { RadiatorLocation.Top, new [] {RadiatorSize.R240, RadiatorSize.R280} }
             }
         };
 
@@ -153,7 +152,7 @@ public class CoolerTests
         var cooler3 = new Cooler
         {
             IsAir = false,
-            LiquidCoolerLengthMM = "140"
+            RadiatorSize = RadiatorSize.R140
         };
 
         var result = _compatibilityEvaluator.CompareCaseCoolerType(@case, cooler);

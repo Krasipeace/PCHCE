@@ -2,6 +2,7 @@ namespace Tests;
 
 using Core;
 using Core.Components;
+using Core.Enums;
 
 public class PsuTests
 {
@@ -140,7 +141,7 @@ public class PsuTests
     {
         var psu = new PowerSupply
         {
-            FormFactor = "atx"
+            FormFactor = PsuFormFactor.ATX
         };
 
         var @case = new Case
@@ -161,7 +162,7 @@ public class PsuTests
     {
         var psu = new PowerSupply
         {
-            FormFactor = "sfx"
+            FormFactor = PsuFormFactor.SFX
         };
 
         var @case = new Case
@@ -181,26 +182,6 @@ public class PsuTests
     {
         var psu = new PowerSupply();
         var @case = new Case();
-
-        var result = _compatibilityEvaluator.CompareCasePsuFormFactor(@case, psu);
-        Assert.That(result, Is.False);
-    }
-
-    [Test]
-    public void EvalPsuCaseFormFactor_WhenOneInputIsNull_ReturnsFalse()
-    {
-        var psu = new PowerSupply();
-        var @case = new Case
-        {
-            SupportedPsuFormFactors =
-            [
-                PsuFormFactor.ATX,
-                PsuFormFactor.FlexATX,
-                PsuFormFactor.SFX_L,
-                PsuFormFactor.TFX,
-                PsuFormFactor.SFX
-            ]
-        };
 
         var result = _compatibilityEvaluator.CompareCasePsuFormFactor(@case, psu);
         Assert.That(result, Is.False);

@@ -88,7 +88,8 @@ public class RankEvaluator
     public double RankMotherboard(Motherboard motherboard)
     {
         double score = 0;
-        score += Math.Min(80, (motherboard.PCIEVersion / 5.0) * 80);
+        double versionScore = (int)motherboard.PCIEVersion;
+        score += Math.Min(80, (versionScore / 5.0) * 80);
         score += Math.Min(20, (motherboard.MaxMemoryCapacity / 512.0) * 20);
 
         return Math.Min(100, Math.Max(0, score));

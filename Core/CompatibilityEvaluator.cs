@@ -12,12 +12,9 @@ public class CompatibilityEvaluator
     /// <param name="case">case object</param>
     /// <param name="motherboard">motherboard object</param>
     /// <returns>Returns True, if motherboard form factor is in case's supported motherboards list</returns>
-    public bool CompareCaseMotherBoardFormFactor(Case @case, Motherboard motherboard)
-    {
-        if (@case?.SupportedMbFormFactors == null || motherboard?.FormFactor == null) return false;
-
-        return @case.SupportedMbFormFactors.Contains(motherboard.FormFactor);
-    }
+    public bool CompareCaseMotherBoardFormFactor(Case @case, Motherboard motherboard) => 
+        (@case?.SupportedMbFormFactors) != null && (motherboard?.FormFactor) != null && 
+        @case.SupportedMbFormFactors.Contains(motherboard.FormFactor);
 
     /// <summary>
     /// Compare Case's form factors and motherboard form factor as strings
@@ -41,7 +38,8 @@ public class CompatibilityEvaluator
     /// <param name="case">the pc case input.</param>
     /// <param name="psu">the power supply unit input.</param>
     /// <returns></returns>
-    public bool CompareCasePsuFormFactor(Case @case, PowerSupply psu) => @case.SupportedPsuFormFactors.Contains(psu.FormFactor);
+    public bool CompareCasePsuFormFactor(Case @case, PowerSupply psu) => 
+        @case.SupportedPsuFormFactors.Contains(psu.FormFactor);
 
     /// <summary>
     /// Check Max PC Case Gpu Length to actual GPU Length
@@ -49,12 +47,10 @@ public class CompatibilityEvaluator
     /// <param name="case">the pc case input</param>
     /// <param name="gpu">the gpu input</param>
     /// <returns>Returns True, if GPU can fit the case, False - otherwise</returns>
-    public bool CompareCaseGpuLength(Case @case, GPU gpu)
-    {
-        if (@case?.MaxGpuLength == null || gpu.Length == null || @case.MaxGpuLength == 0 || gpu.Length == 0) return false;
-
-        return @case.MaxGpuLength >= gpu.Length;
-    }
+    public bool CompareCaseGpuLength(Case @case, GPU gpu) => 
+        (@case?.MaxGpuLength) != null && gpu.Length != null && 
+        @case.MaxGpuLength != 0 && gpu.Length != 0 && 
+        @case.MaxGpuLength >= gpu.Length;
 
     /// <summary>
     /// Check Max PC Case Gpu Length to actual GPU Length
@@ -62,12 +58,8 @@ public class CompatibilityEvaluator
     /// <param name="caseMaxGpuLengthmm">PC Case's GPU max possible Length in mm</param>
     /// <param name="gpuLengthmm">GPU Length in mm</param>
     /// <returns>Returns True, if GPU can fit the case, False - otherwise</returns>
-    public bool CompareCaseGpuLength(double caseMaxGpuLengthmm, double gpuLengthmm)
-    {
-        if (caseMaxGpuLengthmm <= 0 || gpuLengthmm <= 0) return false;
-
-        return caseMaxGpuLengthmm >= gpuLengthmm;
-    }
+    public bool CompareCaseGpuLength(double caseMaxGpuLengthmm, double gpuLengthmm) => 
+        caseMaxGpuLengthmm > 0 && gpuLengthmm > 0 && caseMaxGpuLengthmm >= gpuLengthmm;
 
     /// <summary>
     /// Compare Air Cooler Height to Case Air Cooler compatibility.
@@ -100,12 +92,9 @@ public class CompatibilityEvaluator
     /// <param name="cpu">CPU input object</param>
     /// <param name="motherboard">Motherboard input object</param>
     /// <returns>Returns True, if sockets match, False - otherwise.</returns>
-    public bool CompareCpuMotherboardSockets(CPU cpu, Motherboard motherboard)
-    {
-        if (cpu.Socket == null || motherboard.Socket == null) return false;
-
-        return Normalize(cpu.Socket) == Normalize(motherboard.Socket);
-    }
+    public bool CompareCpuMotherboardSockets(CPU cpu, Motherboard motherboard) =>
+        cpu.Socket != null && motherboard.Socket != null && 
+        Normalize(cpu.Socket) == Normalize(motherboard.Socket);
 
     /// <summary>
     /// Compare sockets of cpu and motherboard as strings
@@ -123,12 +112,9 @@ public class CompatibilityEvaluator
     /// <param name="gpu">gpu power consumption</param>
     /// <param name="psu">power supply wattage</param>
     /// <returns>True, if Gpu watts are less or equal to PSU watts.</returns>
-    public bool CompareGpuPsuWatts(GPU gpu, PowerSupply psu)
-    {
-        if (gpu.PowerConsumption == null || psu?.Watts == null) return false;
-
-        return gpu.PowerConsumption <= psu.Watts;
-    }
+    public bool CompareGpuPsuWatts(GPU gpu, PowerSupply psu) => 
+        gpu.PowerConsumption != null && (psu?.Watts) != null && 
+        gpu.PowerConsumption <= psu.Watts;
 
     /// <summary>
     /// Compare GPU power consumption to pc system PSU
@@ -136,8 +122,8 @@ public class CompatibilityEvaluator
     /// <param name="gpuWatts">GPU wattage value</param>
     /// <param name="psuWatts">PSU wattage value</param>
     /// <returns>True, if GPU watts are less or equal of PSU watts</returns>
-    public bool CompareGpuPsuWatts(double gpuWatts, double psuWatts) => 
-        gpuWatts <= 0 || psuWatts <= 0 ? false : gpuWatts <= psuWatts;
+    public bool CompareGpuPsuWatts(double gpuWatts, double psuWatts) =>
+        gpuWatts > 0 && psuWatts > 0 && gpuWatts <= psuWatts;
 
     /// <summary>
     /// Compares the total estimated power consumption of the core PC components (CPU, GPU, Motherboard, and a fixed margin for peripherals) against the maximum wattage of the provided Power Supply Unit (PSU).
@@ -184,7 +170,8 @@ public class CompatibilityEvaluator
     /// <param name="ram">The RAM input object</param>
     /// <param name="motherboard">The Motherboard input object</param>
     /// <returns>True, if RAM types matches, False - otherwise</returns>
-    public bool CompareRamMotherboardMemoryType(RAM ram, Motherboard motherboard) => ram.Type == motherboard.MemoryType;
+    public bool CompareRamMotherboardMemoryType(RAM ram, Motherboard motherboard) => 
+        ram.Type == motherboard.MemoryType;
 
     /// <summary>
     /// Compare RAM and Motherboard Memory Types.
@@ -199,8 +186,8 @@ public class CompatibilityEvaluator
     /// <summary>
     /// Compares PCIe versions of GPU and motherboard and returns a compatibility score (0-100).
     /// </summary>
-    /// <param name="gpu"></param>
-    /// <param name="motherboard"></param>
+    /// <param name="gpu">The GPU object input</param>
+    /// <param name="motherboard">The Motherboard object input</param>
     /// <returns>Returns score from 0(worst) to 100(best). Also returns 0 if any of the input objects are null.</returns>
     public double GetGpuMotherboardPcieInterfacesScore(GPU gpu, Motherboard motherboard)
     {
@@ -231,7 +218,7 @@ public class CompatibilityEvaluator
     /// </summary>
     /// <param name="version">the selected version as enumable</param>
     /// <returns>Math value of pcie version</returns>
-    private double GetRelativeBandwidthMultiplier(PCIeVersion version) => Math.Pow(2, (int)version - 3);
+    private static double GetRelativeBandwidthMultiplier(PCIeVersion version) => Math.Pow(2, (int)version - 3);
 
     /// <summary>
     /// Check string[] for upper/down/spaces/dashes and ignores them

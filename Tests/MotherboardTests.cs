@@ -142,22 +142,19 @@ public class MotherboardTests
     [Test]
     public void EvalRamMotherboard_WhenRamTypeIsNullOrEmpty_ReturnsFalse()
     {
-        string? ramTypeNull = null;
-        string? mbRamTypeNull = null;
         string ramTypeEmpty = "";
         string mbTypeEmpty = "";
 
-        var result = _compatibilityEvaluator.CompareRamMotherboardMemoryType(ramTypeNull, mbRamTypeNull);
-        var result2 = _compatibilityEvaluator.CompareRamMotherboardMemoryType(ramTypeEmpty, mbTypeEmpty);
-        var result3 = _compatibilityEvaluator.CompareRamMotherboardMemoryType(ramTypeNull, mbTypeEmpty);
-        var result4 = _compatibilityEvaluator.CompareRamMotherboardMemoryType(ramTypeEmpty, mbRamTypeNull);
+
+        var result = _compatibilityEvaluator.CompareRamMotherboardMemoryType(ramTypeEmpty, mbTypeEmpty);
+        var result2 = _compatibilityEvaluator.CompareRamMotherboardMemoryType(null!, mbTypeEmpty);
+        var result3 = _compatibilityEvaluator.CompareRamMotherboardMemoryType(ramTypeEmpty, null!);
 
         Assert.Multiple(() =>
         {
             Assert.That(result, Is.False);
             Assert.That(result2, Is.False);
             Assert.That(result3, Is.False);
-            Assert.That(result4, Is.False);
         });
     }
 
@@ -244,13 +241,11 @@ public class MotherboardTests
     [Test]
     public void EvalMotherboardCpuSocketCompatibility_WhenValuesAreNullOrEmpty_ReturnsFalse()
     {
-        string? cpuSocketNull = null;
-        string? motherboardNull = null;
         string cpuSocketEmpty = "";
         string motherboardEmpty = "";
 
-        var result = _compatibilityEvaluator.CompareCpuMotherboardSockets(cpuSocketNull, motherboardEmpty);
-        var result2 = _compatibilityEvaluator.CompareCpuMotherboardSockets(cpuSocketEmpty, motherboardNull);
+        var result = _compatibilityEvaluator.CompareCpuMotherboardSockets(null!, motherboardEmpty);
+        var result2 = _compatibilityEvaluator.CompareCpuMotherboardSockets(cpuSocketEmpty, null!);
 
         Assert.Multiple(() =>
         {

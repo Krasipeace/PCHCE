@@ -176,6 +176,46 @@ public class MotherboardTests
     }
 
     [Test]
+    public void EvalMotherboardCpuSocketCompatibility_WhenSocketsAsStringsAreSame_ReturnsTrue()
+    {
+        string cpuSocket = "AM 4";
+        string motherboardSocket = "AM4";
+
+        var result = _compatibilityEvaluator.CompareCpuMotherboardSockets(cpuSocket, motherboardSocket);
+
+        Assert.That(result, Is.True);
+    }
+
+    [Test]
+    public void EvalMotherboardCpuSocketCompatibility_WhenSocketsAsStringsAreDifferent_ReturnsFalse()
+    {
+        string cpuSocket = "LGA 1851";
+        string motherboardSocket = "LGA-1700";
+
+        var result = _compatibilityEvaluator.CompareCpuMotherboardSockets(cpuSocket, motherboardSocket);
+
+        Assert.That(result, Is.False);
+    }
+
+    [Test]
+    public void EvalMotherboardCpuSocketCompatibility_WhenValuesAreNullOrEmpty_ReturnsFalse()
+    {
+        string? cpuSocketNull = null;
+        string? motherboardNull = null;
+        string cpuSocketEmpty = "";
+        string motherboardEmpty = "";
+
+        var result = _compatibilityEvaluator.CompareCpuMotherboardSockets(cpuSocketNull, motherboardEmpty);
+        var result2 = _compatibilityEvaluator.CompareCpuMotherboardSockets(cpuSocketEmpty, motherboardNull);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(result, Is.False);
+            Assert.That(result2, Is.False);
+        });
+    }
+
+    [Test]
     public void EvalMotherboardCaseFormFactor_WhenFactorIsInTheCollection_ReturnsTrue()
     {
         var motherboard = new Motherboard

@@ -29,6 +29,7 @@ public class GpuTests
         };
 
         var result = _rankEvaluator.RankGpu(gpu);
+
         Assert.That(result, Is.AtLeast(80));
     }
 
@@ -36,7 +37,9 @@ public class GpuTests
     public void RankGpu_ZeroSpecs_ReturnsZero()
     {
         var gpu = new GPU();
+
         var result = _rankEvaluator.RankGpu(gpu);
+
         Assert.That(result, Is.EqualTo(0));
     }
 
@@ -53,6 +56,7 @@ public class GpuTests
         };
 
         var result = _rankEvaluator.RankGpu(gpu);
+
         Assert.That(result, Is.EqualTo(100));
     }
 
@@ -69,6 +73,7 @@ public class GpuTests
         };
 
         var result = _rankEvaluator.RankGpu(gpu);
+
         Assert.That(result, Is.AtLeast(95));
     }
 
@@ -85,6 +90,7 @@ public class GpuTests
         };
 
         var result = _rankEvaluator.RankGpu(gpu);
+
         Assert.That(result, Is.GreaterThan(66));
     }
     #endregion
@@ -104,6 +110,7 @@ public class GpuTests
         };
 
         var result = _compatibilityEvaluator.CompareCaseGpuLength(@case, gpu);
+
         Assert.That(result, Is.True);
     }
 
@@ -121,11 +128,12 @@ public class GpuTests
         };
 
         var result = _compatibilityEvaluator.CompareCaseGpuLength(@case, gpu);
+
         Assert.That(result, Is.False);
     }
 
     [Test]
-    public void EvalCaseGpuHasNullInput_ReturnsFalse()
+    public void EvalCaseGpuHasNullInputOrZeroes_ReturnsFalse()
     {
         var caseNull = new Case();
         var gpuNull = new GPU();
@@ -137,10 +145,64 @@ public class GpuTests
         {
             Length = 280
         };
+        var caseZero = new Case
+        {
+            MaxGpuLength = 0
+        };
+        var gpuZero = new GPU
+        {
+            Length = 0
+        };
 
         var result = _compatibilityEvaluator.CompareCaseGpuLength(caseNull, gpu);
         var result2 = _compatibilityEvaluator.CompareCaseGpuLength(@case, gpuNull);
         var result3 = _compatibilityEvaluator.CompareCaseGpuLength(caseNull, gpuNull);
+        var result4 = _compatibilityEvaluator.CompareCaseGpuLength(caseZero, gpu);
+        var result5 = _compatibilityEvaluator.CompareCaseGpuLength(@case, gpuZero);
+        var result6 = _compatibilityEvaluator.CompareCaseGpuLength(caseZero, gpuNull);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(result, Is.False);
+            Assert.That(result2, Is.False);
+            Assert.That(result3, Is.False);
+            Assert.That(result4, Is.False);
+            Assert.That(result5, Is.False);
+            Assert.That(result6, Is.False);
+        });
+    }
+
+    [Test]
+    public void EvalCaseGpuCanFitWithMMvalues_ReturnsTrue()
+    {
+        double caseMaxGpuLength = 350;
+        double gpuLength = 330;
+
+        var result = _compatibilityEvaluator.CompareCaseGpuLength(caseMaxGpuLength, gpuLength);
+
+        Assert.That(result, Is.True);
+    }
+
+    [Test]
+    public void EvalCaseGpuCannotFitWithMMvalues_ReturnsFalse()
+    {
+        double caseMaxGpuLength = 300;
+        double gpuLength = 330;
+
+        var result = _compatibilityEvaluator.CompareCaseGpuLength(caseMaxGpuLength, gpuLength);
+
+        Assert.That(result, Is.False);
+    }
+
+    [Test]
+    public void EvalCaseGpuWeirdCasesWithMMValues_ReturnsFalse()
+    {
+        double caseMaxGpuLength = 300;
+        double gpuLength = -301;
+
+        var result = _compatibilityEvaluator.CompareCaseGpuLength(caseMaxGpuLength, gpuLength);
+        var result2 = _compatibilityEvaluator.CompareCaseGpuLength(caseMaxGpuLength - 300, gpuLength);
+        var result3 = _compatibilityEvaluator.CompareCaseGpuLength(caseMaxGpuLength, gpuLength + 301);
 
         Assert.Multiple(() =>
         {

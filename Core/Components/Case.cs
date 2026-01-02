@@ -32,5 +32,5 @@ public class Case : BaseComponent
     /// <summary>
     /// Max Radiator Size By Location: Front, Top, Bottom, Rear
     /// </summary>
-    public IReadOnlyDictionary<RadiatorLocation, IReadOnlyCollection<RadiatorSize>> MaxRadiatorSizeByLocation{ get; init; } = new Dictionary<RadiatorLocation, IReadOnlyCollection<RadiatorSize>>();
+    public IReadOnlyDictionary<RadiatorLocation, IReadOnlyCollection<RadiatorSize>> MaxRadiatorSizeByLocation { get; init; } = new Dictionary<RadiatorLocation, IReadOnlyCollection<RadiatorSize>>();
 }

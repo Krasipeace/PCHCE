@@ -137,6 +137,46 @@ public class PsuTests
     }
 
     [Test]
+    public void EvalGpuPsuPowerConsumption_WhenPsuWattsAreEnough_ReturnsTrue()
+    {
+        double gpuWatts = 650;
+        double psuWatts = 850;
+
+        var result = _compatibilityEvaluator.CompareGpuPsuWatts(gpuWatts, psuWatts);
+
+        Assert.That(result, Is.True);
+    }
+
+    [Test]
+    public void EvalGpuPsuPowerConsumption_WhenPsuWattsAreNotEnough_ReturnsFalse()
+    {
+        double gpuWatts = 650;
+        double psuWatts = 550;
+
+        var result = _compatibilityEvaluator.CompareGpuPsuWatts(gpuWatts, psuWatts);
+
+        Assert.That(result, Is.False);
+    }
+
+    [Test]
+    public void EvalGpuPsuPowerConsumption_WhenPsuWattsAreZeroOrNegative_ReturnsFalse()
+    {
+        double gpuWattsZero = 0.0;
+        double psuWattsZero = 0.0;
+        double gpuWattsNegative = -100;
+        double psuWattsNegativeZero = -99;
+
+        var result = _compatibilityEvaluator.CompareGpuPsuWatts(gpuWattsNegative, psuWattsZero);
+        var result2 = _compatibilityEvaluator.CompareGpuPsuWatts(gpuWattsZero, psuWattsNegativeZero);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(result, Is.False);
+            Assert.That(result2, Is.False);
+        });
+    }
+
+    [Test]
     public void EvalPsuCaseFormFactor_WhenFactorIsInTheCollection_ReturnsTrue()
     {
         var psu = new PowerSupply

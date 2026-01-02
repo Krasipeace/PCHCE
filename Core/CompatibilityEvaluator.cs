@@ -181,8 +181,20 @@ public class CompatibilityEvaluator
     /// <summary>
     /// Compare RAM and motherboard RAM types, it ignores upper/down cases, dashes, spaces
     /// </summary>
-    /// <returns>True if compatible, false - not</returns>
+    /// <param name="ram">The RAM input object</param>
+    /// <param name="motherboard">The Motherboard input object</param>
+    /// <returns>True, if RAM types matches, False - otherwise</returns>
     public bool CompareRamMotherboardMemoryType(RAM ram, Motherboard motherboard) => ram.Type == motherboard.MemoryType;
+
+    /// <summary>
+    /// Compare RAM and Motherboard Memory Types.
+    /// </summary>
+    /// <param name="ramType">RAM type as string</param>
+    /// <param name="motherboardRamType">Motherboard's RAM Type as string</param>
+    /// <returns>True, if RAM types match, False - otherwise</returns>
+    public bool CompareRamMotherboardMemoryType(string ramType, string motherboardRamType) => 
+        (!string.IsNullOrEmpty(ramType) || !string.IsNullOrEmpty(motherboardRamType)) && 
+        Normalize(ramType) == Normalize(motherboardRamType);
 
     /// <summary>
     /// Compares PCIe versions of GPU and motherboard and returns a compatibility score (0-100).

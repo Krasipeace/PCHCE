@@ -118,6 +118,50 @@ public class MotherboardTests
     }
 
     [Test]
+    public void EvalRamMotherboard_WhenRamTypeMatches_ReturnsTrue()
+    {
+        string ramType = "RAM 5";
+        string motherboardRamType = "RAM5";
+
+        var result = _compatibilityEvaluator.CompareRamMotherboardMemoryType(ramType, motherboardRamType);
+
+        Assert.That(result, Is.True);
+    }
+
+    [Test]
+    public void EvalRamMotherboard_WhenRamTypeMismatch_ReturnsFalse()
+    {
+        string ramType = "RAM5";
+        string motherboardRamType = "RAM 4";
+
+        var result = _compatibilityEvaluator.CompareRamMotherboardMemoryType(ramType, motherboardRamType);
+
+        Assert.That(result, Is.False);
+    }
+
+    [Test]
+    public void EvalRamMotherboard_WhenRamTypeIsNullOrEmpty_ReturnsFalse()
+    {
+        string? ramTypeNull = null;
+        string? mbRamTypeNull = null;
+        string ramTypeEmpty = "";
+        string mbTypeEmpty = "";
+
+        var result = _compatibilityEvaluator.CompareRamMotherboardMemoryType(ramTypeNull, mbRamTypeNull);
+        var result2 = _compatibilityEvaluator.CompareRamMotherboardMemoryType(ramTypeEmpty, mbTypeEmpty);
+        var result3 = _compatibilityEvaluator.CompareRamMotherboardMemoryType(ramTypeNull, mbTypeEmpty);
+        var result4 = _compatibilityEvaluator.CompareRamMotherboardMemoryType(ramTypeEmpty, mbRamTypeNull);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(result, Is.False);
+            Assert.That(result2, Is.False);
+            Assert.That(result3, Is.False);
+            Assert.That(result4, Is.False);
+        });
+    }
+
+    [Test]
     public void EvalMotherboardGpu_GivesBestScore_WhenPCIeAreSame()
     {
         var motherboard = new Motherboard

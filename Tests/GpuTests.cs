@@ -97,7 +97,7 @@ public class GpuTests
 
     #region Compatibility Evaluator Tests
     [Test]
-    public void EvalCaseGpuCanFit_ReturnsTrue()
+    public void CompareCaseGpuLength_CanFit_ReturnsTrue()
     {
         var @case = new Case
         {
@@ -115,7 +115,7 @@ public class GpuTests
     }
 
     [Test]
-    public void EvalCaseGpuCannotFit_ReturnsFalse()
+    public void CompareCaseGpuLength_CannotFit_ReturnsFalse()
     {
         var @case = new Case
         {
@@ -133,7 +133,7 @@ public class GpuTests
     }
 
     [Test]
-    public void EvalCaseGpuHasNullInputOrZeroes_ReturnsFalse()
+    public void CompareCaseGpuLength_HasNullInputOrZeroes_ReturnsFalse()
     {
         var caseNull = new Case();
         var gpuNull = new GPU();
@@ -173,7 +173,7 @@ public class GpuTests
     }
 
     [Test]
-    public void EvalCaseGpuCanFitWithMMvalues_ReturnsTrue()
+    public void CompareCaseGpuLength_CanFitWithMMvalues_ReturnsTrue()
     {
         double caseMaxGpuLength = 350;
         double gpuLength = 330;
@@ -184,7 +184,7 @@ public class GpuTests
     }
 
     [Test]
-    public void EvalCaseGpuCannotFitWithMMvalues_ReturnsFalse()
+    public void CompareCaseGpuLength_CannotFitWithMMvalues_ReturnsFalse()
     {
         double caseMaxGpuLength = 300;
         double gpuLength = 330;
@@ -195,7 +195,7 @@ public class GpuTests
     }
 
     [Test]
-    public void EvalCaseGpuWeirdCasesWithMMValues_ReturnsFalse()
+    public void CompareCaseGpuLength_WeirdCasesWithMMValues_ReturnsFalse()
     {
         double caseMaxGpuLength = 300;
         double gpuLength = -301;

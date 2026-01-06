@@ -62,7 +62,7 @@ public class MotherboardTests
 
     #region CompatibilityEvaluator Tests
     [Test]
-    public void EvalMotherboardRam_GivesTrueResult_WhenTypesAreTheSame()
+    public void CompareRamMotherboardMemoryType_GivesTrueResult_WhenTypesAreTheSame()
     {
         var motherboard = new Motherboard
         {
@@ -79,7 +79,7 @@ public class MotherboardTests
     }
 
     [Test]
-    public void EvalMotherBoardRam_GivesFalseResult_WhenTypesAreNotTheSame()
+    public void CompareRamMotherboardMemoryType_GivesFalseResult_WhenTypesAreNotTheSame()
     {
         var motherboard = new Motherboard
         {
@@ -96,7 +96,7 @@ public class MotherboardTests
     }
 
     [Test]
-    public void EvalMotherBoardRam_GivesTrueResult_WhenNormalizeIsInAction()
+    public void CompareRamMotherboardMemoryType_GivesTrueResult_WhenNormalizeIsInAction()
     {
         var motherboard = new Motherboard
         {
@@ -118,7 +118,7 @@ public class MotherboardTests
     }
 
     [Test]
-    public void EvalRamMotherboard_WhenRamTypeMatches_ReturnsTrue()
+    public void CompareRamMotherboardMemoryType_WhenRamTypeMatches_ReturnsTrue()
     {
         string ramType = "RAM 5";
         string motherboardRamType = "RAM5";
@@ -129,7 +129,7 @@ public class MotherboardTests
     }
 
     [Test]
-    public void EvalRamMotherboard_WhenRamTypeMismatch_ReturnsFalse()
+    public void CompareRamMotherboardMemoryType_WhenRamTypeMismatch_ReturnsFalse()
     {
         string ramType = "RAM5";
         string motherboardRamType = "RAM 4";
@@ -140,7 +140,7 @@ public class MotherboardTests
     }
 
     [Test]
-    public void EvalRamMotherboard_WhenRamTypeIsNullOrEmpty_ReturnsFalse()
+    public void CompareRamMotherboardMemoryType_WhenRamTypeIsNullOrEmpty_ReturnsFalse()
     {
         string ramTypeEmpty = "";
         string mbTypeEmpty = "";
@@ -159,7 +159,7 @@ public class MotherboardTests
     }
 
     [Test]
-    public void EvalMotherboardGpu_GivesBestScore_WhenPCIeAreSame()
+    public void GetGpuMotherboardPcieInterfacesScore_GivesBestScore_WhenPCIeAreSame()
     {
         var motherboard = new Motherboard
         {
@@ -178,7 +178,7 @@ public class MotherboardTests
     }
 
     [Test]
-    public void EvalMotherboardGpu_GivesZero_WhenInputIsNull()
+    public void GetGpuMotherboardPcieInterfacesScore_GivesZero_WhenInputIsNull()
     {
         var motherboard = new Motherboard();
         var gpu = new GPU();
@@ -190,7 +190,7 @@ public class MotherboardTests
 
 
     [Test]
-    public void EvalMotherboardCpuSocketCompatibility_WhenSocketsAreDifferent_ReturnsFalse()
+    public void CompareCpuMotherboardSockets_WhenSocketsAreDifferent_ReturnsFalse()
     {
         var motherboard = new Motherboard
         {
@@ -207,7 +207,7 @@ public class MotherboardTests
     }
 
     [Test]
-    public void EvalMotherboardCpuSocketCompatibility_WhenInputIsNull_ReturnsFalse()
+    public void CompareCpuMotherboardSocketsCompatibility_WhenInputIsNull_ReturnsFalse()
     {
         var motherboard = new Motherboard();
         var cpu = new CPU();
@@ -217,7 +217,7 @@ public class MotherboardTests
     }
 
     [Test]
-    public void EvalMotherboardCpuSocketCompatibility_WhenSocketsAsStringsAreSame_ReturnsTrue()
+    public void CompareCpuMotherboardSocketsCompatibility_WhenSocketsAsStringsAreSame_ReturnsTrue()
     {
         string cpuSocket = "AM 4";
         string motherboardSocket = "AM4";
@@ -228,7 +228,7 @@ public class MotherboardTests
     }
 
     [Test]
-    public void EvalMotherboardCpuSocketCompatibility_WhenSocketsAsStringsAreDifferent_ReturnsFalse()
+    public void CompareCpuMotherboardSocketsCompatibility_WhenSocketsAsStringsAreDifferent_ReturnsFalse()
     {
         string cpuSocket = "LGA 1851";
         string motherboardSocket = "LGA-1700";
@@ -239,7 +239,7 @@ public class MotherboardTests
     }
 
     [Test]
-    public void EvalMotherboardCpuSocketCompatibility_WhenValuesAreNullOrEmpty_ReturnsFalse()
+    public void CompareCpuMotherboardSocketsCompatibility_WhenValuesAreNullOrEmpty_ReturnsFalse()
     {
         string cpuSocketEmpty = "";
         string motherboardEmpty = "";
@@ -255,7 +255,7 @@ public class MotherboardTests
     }
 
     [Test]
-    public void EvalMotherboardCaseFormFactor_WhenFactorIsInTheCollection_ReturnsTrue()
+    public void CompareCaseMotherBoardFormFactor_WhenFactorIsInTheCollection_ReturnsTrue()
     {
         var motherboard = new Motherboard
         {
@@ -277,7 +277,7 @@ public class MotherboardTests
     }
 
     [Test]
-    public void EvalMotherboardCaseFormFactor_WhenFactorIsNotInTheCollection_ReturnsFalse()
+    public void CompareCaseMotherBoardFormFactor_WhenFactorIsNotInTheCollection_ReturnsFalse()
     {
         var motherboard = new Motherboard
         {
@@ -299,7 +299,7 @@ public class MotherboardTests
     }
 
     [Test]
-    public void EvalMotherboardCaseFormFactor_WhenInputIsNull_ReturnsFalse()
+    public void CompareCaseMotherBoardFormFactor_WhenInputIsNull_ReturnsFalse()
     {
         var motherboard = new Motherboard
         {
@@ -329,7 +329,7 @@ public class MotherboardTests
     }
 
     [Test]
-    public void EvalMotherboardCaseFormFactor_ReturnsTrue_WhenFormFactorMatchesIgnoringCaseSpacesAndDashes()
+    public void CompareCaseMotherBoardFormFactor_ReturnsTrue_WhenFormFactorMatchesIgnoringCaseSpacesAndDashes()
     {
         var supportedFormFactors = new[]
         {
@@ -345,7 +345,7 @@ public class MotherboardTests
     }
 
     [Test]
-    public void EvalMotherboardCaseFormFactor_ReturnsFalse_WhenFormFactorIsNotSupported()
+    public void CompareCaseMotherBoardFormFactor_ReturnsFalse_WhenFormFactorIsNotSupported()
     {
         var supportedFormFactors = new[]
         {
@@ -360,7 +360,7 @@ public class MotherboardTests
     }
 
     [Test]
-    public void EvalMotherboardCaseFormFactor_ReturnsFalse_WhenInputsAreInvalid()
+    public void CompareCaseMotherBoardFormFactor_ReturnsFalse_WhenInputsAreInvalid()
     {
         var emptyFormFactors = Array.Empty<string>();
         string? motherboardFormFactor = null;

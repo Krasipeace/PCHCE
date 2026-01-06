@@ -80,7 +80,7 @@ public class PsuTests
 
     #region CompatibilityEvaluator Tests
     [Test]
-    public void EvalGpuPsuPowerConsumption_WhenIsEnough_ReturnsTrue()
+    public void CompareGpuPsuWattsConsumption_WhenIsEnough_ReturnsTrue()
     {
         var psu = new PowerSupply
         {
@@ -97,7 +97,7 @@ public class PsuTests
     }
 
     [Test]
-    public void EvalGpuPsuPowerConsumption_WhenNotEnough_ReturnsFalse()
+    public void CompareGpuPsuWattsPowerConsumption_WhenNotEnough_ReturnsFalse()
     {
         var psu = new PowerSupply
         {
@@ -114,7 +114,7 @@ public class PsuTests
     }
 
     [Test]
-    public void EvalGpuPsuPowerConsumption_WhenAllInputIsNull_ReturnsFalse()
+    public void CompareGpuPsuWattsPowerConsumption_WhenAllInputIsNull_ReturnsFalse()
     {
         var psu = new PowerSupply();
         var gpu = new GPU();
@@ -124,7 +124,7 @@ public class PsuTests
     }
 
     [Test]
-    public void EvalGpuPsuPowerConsumption_WhenOneInputIsNull_ReturnsFalse()
+    public void CompareGpuPsuWattsPowerConsumption_WhenOneInputIsNull_ReturnsFalse()
     {
         var psu = new PowerSupply();
         var gpu = new GPU
@@ -137,7 +137,7 @@ public class PsuTests
     }
 
     [Test]
-    public void EvalGpuPsuPowerConsumption_WhenPsuWattsAreEnough_ReturnsTrue()
+    public void CompareGpuPsuWattsPowerConsumption_WhenPsuWattsAreEnough_ReturnsTrue()
     {
         double gpuWatts = 650;
         double psuWatts = 850;
@@ -148,7 +148,7 @@ public class PsuTests
     }
 
     [Test]
-    public void EvalGpuPsuPowerConsumption_WhenPsuWattsAreNotEnough_ReturnsFalse()
+    public void CompareGpuPsuWattsPowerConsumption_WhenPsuWattsAreNotEnough_ReturnsFalse()
     {
         double gpuWatts = 650;
         double psuWatts = 550;
@@ -159,7 +159,7 @@ public class PsuTests
     }
 
     [Test]
-    public void EvalGpuPsuPowerConsumption_WhenPsuWattsAreZeroOrNegative_ReturnsFalse()
+    public void CompareGpuPsuWattsPowerConsumption_WhenPsuWattsAreZeroOrNegative_ReturnsFalse()
     {
         double gpuWattsZero = 0.0;
         double psuWattsZero = 0.0;
@@ -177,7 +177,7 @@ public class PsuTests
     }
 
     [Test]
-    public void EvalPsuCaseFormFactor_WhenFactorIsInTheCollection_ReturnsTrue()
+    public void CompareCasePsuFormFactor_WhenFactorIsInTheCollection_ReturnsTrue()
     {
         var psu = new PowerSupply
         {
@@ -198,7 +198,7 @@ public class PsuTests
     }
 
     [Test]
-    public void EvalPsuCaseFormFactor_WhenFactorIsNotInTheCollection_ReturnsFalse()
+    public void CompareCasePsuFormFactor_WhenFactorIsNotInTheCollection_ReturnsFalse()
     {
         var psu = new PowerSupply
         {
@@ -218,7 +218,7 @@ public class PsuTests
     }
 
     [Test]
-    public void EvalPsuCaseFormFactor_WhenAllInputIsNull_ReturnsFalse()
+    public void CompareCasePsuFormFactorFormFactor_WhenAllInputIsNull_ReturnsFalse()
     {
         var psu = new PowerSupply();
         var @case = new Case();
@@ -228,7 +228,7 @@ public class PsuTests
     }
 
     [Test]
-    public void EvalAllComponentsPsuWatts_WhenCompatible_ReturnsTrue()
+    public void CompareAllToPsuWattsComponents_WhenCompatible_ReturnsTrue()
     {
         var psu = new PowerSupply
         {
@@ -265,7 +265,7 @@ public class PsuTests
     }
 
     [Test]
-    public void EvalAllComponentsPsuWatts_WhenInCompatible_ReturnsFalse()
+    public void CompareAllToPsuWattsComponents_WhenInCompatible_ReturnsFalse()
     {
         var psu = new PowerSupply
         {
@@ -302,7 +302,7 @@ public class PsuTests
     }
 
     [Test]
-    public void EvalAllComponentsPsuWatts_WhenInputIsNull_ReturnsFalse()
+    public void CompareAllToPsuWattsComponents_WhenInputIsNull_ReturnsFalse()
     {
         var psu = new PowerSupply();
 

@@ -84,7 +84,7 @@ public class CoolerTests
 
     #region Compatibility Evaluator Tests
     [Test]
-    public void EvalCaseLiquidCoolerCanFitInCase_ReturnsTrue()
+    public void CompareCaseCoolerType_CanFitInCase_ReturnsTrue()
     {
         var @case = new Case
         {
@@ -127,7 +127,7 @@ public class CoolerTests
     }
 
     [Test]
-    public void EvalCaseLiquidCoolerCannotFit_ReturnsFalse()
+    public void CompareCaseCoolerType_CannotFit_ReturnsFalse()
     {
         var @case = new Case
         {
@@ -168,7 +168,7 @@ public class CoolerTests
     }
 
     [Test]
-    public void EvalCaseAirCoolerCanFit_ReturnsTrue()
+    public void CompareCaseCoolerType_CanFit_ReturnsTrue()
     {
         var cooler = new Cooler
         {
@@ -186,7 +186,7 @@ public class CoolerTests
     }
 
     [Test]
-    public void EvalCaseAirCoolerCannotFit_ReturnsFalse()
+    public void CompareCaseCoolerType_CannotFit2_ReturnsFalse()
     {
         var @case = new Case
         {

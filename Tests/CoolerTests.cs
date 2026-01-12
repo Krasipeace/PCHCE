@@ -202,5 +202,125 @@ public class CoolerTests
         var result = _compatibilityEvaluator.CompareCaseCoolerType(@case, cooler);
         Assert.That(result, Is.False);
     }
+
+    [Test]
+    public void CompareCoolerRamTypeClearance_ReturnsFalse_WhenCoolerIsNull()
+    {
+        var ram = new RAM { Height = 40 };
+
+        var result = _compatibilityEvaluator.CompareCoolerRamTypeClearance(null!, ram);
+
+        Assert.That(result, Is.False);
+    }
+
+    [Test]
+    public void CompareCoolerRamTypeClearance_ReturnsFalse_WhenRamIsNull()
+    {
+        var cooler = new Cooler { IsAir = true, RamClearance = 45 };
+
+        var result = _compatibilityEvaluator.CompareCoolerRamTypeClearance(cooler, null!);
+
+        Assert.That(result, Is.False);
+    }
+
+    [Test]
+    public void CompareCoolerRamTypeClearance_ReturnsTrue_ForLiquidCooler_RegardlessOfRam()
+    {
+        var cooler = new Cooler
+        {
+            IsAir = false,
+            RamClearance = null
+        };
+
+        var ram = new RAM
+        {
+            IsLowProfile = false,
+            Height = 60
+        };
+
+        var result = _compatibilityEvaluator.CompareCoolerRamTypeClearance(cooler, ram);
+
+        Assert.That(result, Is.True);
+    }
+
+    [Test]
+    public void CompareCoolerRamTypeClearance_ReturnsTrue_ForLowProfileRam_WithAirCooler()
+    {
+        var cooler = new Cooler
+        {
+            IsAir = true,
+            RamClearance = 30
+        };
+
+        var ram = new RAM
+        {
+            IsLowProfile = true,
+            Height = 50
+        };
+
+        var result = _compatibilityEvaluator.CompareCoolerRamTypeClearance(cooler, ram);
+
+        Assert.That(result, Is.True);
+    }
+
+    [Test]
+    public void ReturnsTrue_WhenRamHeightEqualsClearance()
+    {
+        var cooler = new Cooler
+        {
+            IsAir = true,
+            RamClearance = 42
+        };
+
+        var ram = new RAM
+        {
+            IsLowProfile = false,
+            Height = 42
+        };
+
+        var result = _compatibilityEvaluator.CompareCoolerRamTypeClearance(cooler, ram);
+
+        Assert.That(result, Is.True);
+    }
+
+    [Test]
+    public void CompareCoolerRamTypeClearance_ReturnsTrue_WhenRamHeightIsLessThanClearance()
+    {
+        var cooler = new Cooler
+        {
+            IsAir = true,
+            RamClearance = 45
+        };
+
+        var ram = new RAM
+        {
+            IsLowProfile = false,
+            Height = 40
+        };
+
+        var result = _compatibilityEvaluator.CompareCoolerRamTypeClearance(cooler, ram);
+
+        Assert.That(result, Is.True);
+    }
+
+    [Test]
+    public void CompareCoolerRamTypeClearance_ReturnsFalse_WhenRamHeightExceedsClearance()
+    {
+        var cooler = new Cooler
+        {
+            IsAir = true,
+            RamClearance = 40
+        };
+
+        var ram = new RAM
+        {
+            IsLowProfile = false,
+            Height = 45
+        };
+
+        var result = _compatibilityEvaluator.CompareCoolerRamTypeClearance(cooler, ram);
+
+        Assert.That(result, Is.False);
+    }
     #endregion
 }

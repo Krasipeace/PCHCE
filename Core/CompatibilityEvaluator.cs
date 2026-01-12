@@ -72,18 +72,34 @@ public class CompatibilityEvaluator
     {
         if (cooler.IsAir)
         {
-            if (cooler.Height is null || cooler.Height <= 0 || 
-                @case?.MaxCpuAirCoolerHeight is null || @case.MaxCpuAirCoolerHeight == 0) 
+            if (cooler.Height == null || cooler.Height <= 0 || 
+                @case?.MaxCpuAirCoolerHeight == null || @case.MaxCpuAirCoolerHeight == 0) 
                 return false;
 
             return cooler.Height <= @case.MaxCpuAirCoolerHeight;
         }
         else
         {
-            if (cooler.RadiatorSize is null) return false;
+            if (cooler.RadiatorSize == null) return false;
 
             return @case.MaxRadiatorSizeByLocation.Values.Any(sizes => sizes.Contains(cooler.RadiatorSize.Value));
-        } 
+        }
+    }
+
+    /// <summary>
+    /// Compare Cooler clearance for RAM sticks.
+    /// </summary>
+    /// <param name="cooler">Cooler object</param>
+    /// <param name="ram">RAM object</param>
+    /// <returns>True, if compatible or Liquid Cooler, False - otherwise</returns>
+    public bool CompareCoolerRamTypeClearance(Cooler cooler, RAM ram)
+    {
+        if (cooler == null || ram == null) return false;
+        if (!cooler.IsAir) return true;
+        if (ram.IsLowProfile == true) return true;
+        if (cooler.RamClearance == null || cooler.RamClearance <= 0) return false;
+
+        return ram.Height <= cooler.RamClearance;
     }
 
     /// <summary>
@@ -202,7 +218,7 @@ public class CompatibilityEvaluator
         double motherboardScore = (int)motherboard.PCIEVersion;
         PCIeVersion bottleneckVersion = (PCIeVersion)Math.Min(gpuScore, motherboardScore);
         double bottleneckMultiplier = GetRelativeBandwidthMultiplier(bottleneckVersion);
-        double gpuRequiredMultiplier = GetRelativeBandwidthMultiplier((PCIeVersion)gpu.PCIeVersion);
+        double gpuRequiredMultiplier = GetRelativeBandwidthMultiplier(gpu.PCIeVersion);
         double versionScore = (bottleneckMultiplier / gpuRequiredMultiplier) * 100;
         double finalScore = Math.Min(laneScore, versionScore);
 

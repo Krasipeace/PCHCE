@@ -75,7 +75,7 @@ public class RankEvaluator
             score += Math.Min(25, clScore);
         }
 
-        if (ram.HasXMPorExpo == true) score += 25;
+        if (ram.HasXMPorExpo) score += 25;
 
         return Math.Min(100, Math.Max(0, score));
     }
@@ -117,7 +117,7 @@ public class RankEvaluator
     public double RankCooler(Cooler cooler)
     {
         double score = 0;
-        if (cooler.IsAir == false) score += 30;
+        if (!cooler.IsAir) score += 30;
 
         score += Math.Min(20, (cooler.RPM / 3000.0) * 20);
         score += Math.Min(50, (cooler.CFM / 100.0) * 50);

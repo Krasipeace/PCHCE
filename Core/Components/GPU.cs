@@ -7,7 +7,7 @@ public class GPU : BaseComponent
     /// <summary>
     /// Only Nvidia GPUs have CUDA cores, so its detection between nvidia and other GPUs
     /// </summary>
-    public bool? HasCuda { get; set; }
+    public bool? HasCuda { get; init; }
 
     /// <summary>
     /// Amount of Gpraphic Processing Units (Stream, CUDA etc.)

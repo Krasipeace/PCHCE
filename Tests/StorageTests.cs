@@ -2,6 +2,7 @@
 
 using Core;
 using Core.Components;
+using Core.Enums;
 
 public class StorageTests
 {
@@ -19,7 +20,7 @@ public class StorageTests
     {
         var storage = new Storage
         {
-            IsNVMe = true,
+            StorageType = StorageType.Nvme,
             ReadSpeed = 14800,
             WriteSpeed = 13400
         };
@@ -41,7 +42,7 @@ public class StorageTests
     {
         var storage = new Storage
         {
-            IsNVMe = true,
+            StorageType = StorageType.Nvme,
             ReadSpeed = 16000,
             WriteSpeed = 16000
         };
@@ -55,7 +56,7 @@ public class StorageTests
     {
         var storage = new Storage
         {
-            IsSSD = true,
+            StorageType = StorageType.Ssd,
             ReadSpeed = 550,
             WriteSpeed = 450
         };
@@ -70,7 +71,7 @@ public class StorageTests
     {
         var storage = new Storage
         {
-            IsNVMe = true,
+            StorageType = StorageType.Nvme,
             ReadSpeed = 7250,
             WriteSpeed = 6300
         };
@@ -84,7 +85,7 @@ public class StorageTests
     {
         var storage = new Storage
         {
-            IsHDD = true,
+            StorageType = StorageType.Hdd,
             ReadSpeed = 140,
             WriteSpeed = 130
         };

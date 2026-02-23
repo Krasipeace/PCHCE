@@ -4,11 +4,14 @@ This library provides simple evaluation of hardware components, so it can be use
 
 ## Table of Contents
 
-- [Installation](#installation)
-- [Features](#features)
-- [Components](#components)
-- [RankEvaluator](#rankevaluator)
-- [Usage Examples](#usage-examples)
+- [PCHCE(Personal Computer Hardware Component Evaluator)](#pchcepersonal-computer-hardware-component-evaluator)
+  - [Table of Contents](#table-of-contents)
+  - [Installation](#installation)
+  - [Features](#features)
+  - [Components](#components)
+  - [RankEvaluator](#rankevaluator)
+    - [How it works](#how-it-works)
+  - [Usage Examples](#usage-examples)
 
 ## Installation
 
@@ -110,7 +113,7 @@ var mySsd = new Storage
 {
     ReadSpeed = 7000,
     WriteSpeed = 6000,
-    IsNVMe = true
+    StorageType = StorageType.Nvme
 };
 
 double storageScore = evaluator.RankStorage(mySsd);

@@ -4,9 +4,10 @@ using Core.Enums;
 
 public class Storage : BaseComponent
 {
-    public bool? IsHDD { get; init; }
-    public bool? IsSSD { get; init; }
-    public bool? IsNVMe { get; init; }
+    /// <summary>
+    /// Storage Type: HDD = 0, SSD = 1, Nvme = 2
+    /// </summary>
+    public StorageType? StorageType { get; init; }
 
     /// <summary>
     /// PcieType, if "Pcie5.0x4" =>> 5

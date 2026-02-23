@@ -1,21 +1,24 @@
 ﻿namespace Core;
 
 using Core.Components;
+using Core.Enums;
 
 public class RankEvaluator
 {
     /// <summary>
     /// Evaluating Storage Drive, depending on type, read/write speeds.
     /// </summary>
-    /// <param name="storage"></param>
+    /// <param name="storage">The storage drive to be ranked</param>
     /// <returns>Math Evaluation of storage characteristics(0[worst] to 100[best]).</returns>
     public double RankStorage(Storage storage)
     {
-        double score = 0;
-
-        if (storage.IsNVMe == true) score += 10;
-        else if (storage.IsSSD == true) score += 5;
-        else if (storage.IsHDD == true) score += 1;
+        double score = storage.StorageType switch
+        {
+            StorageType.Nvme => 10,
+            StorageType.Ssd => 5,
+            StorageType.Hdd => 1,
+            _ => 0
+        };
 
         score += Math.Min(45, (storage.ReadSpeed / 15000.0) * 45);
         score += Math.Min(45, (storage.WriteSpeed / 15000.0) * 45);

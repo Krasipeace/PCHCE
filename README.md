@@ -15,10 +15,12 @@ This library provides simple evaluation of hardware components, so it can be use
 
 ## Installation
 
+Link: https://www.nuget.org/packages/pchce/
+
 You can install the library via NuGet Package Manager or .NET CLI.
 
 ```bash
-
+dotnet add package pchce --version
 ```
 
 ## Features

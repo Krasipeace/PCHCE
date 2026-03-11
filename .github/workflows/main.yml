@@ -22,11 +22,12 @@ jobs:
           dotnet restore
           dotnet build --configuration Release --no-restore
 
-      - name: Upload Build Artifacts
+      - name: Upload Workspace Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: build-output
-          path: ./**/bin/Release/
+          name: full-workspace
+          path: .
+          include-hidden-files: true
 
   test:
     runs-on: ubuntu-latest
@@ -34,36 +35,31 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.x'
-
-      - name: Download Build Artifacts
+      - name: Download Workspace
         uses: actions/download-artifact@v4
         with:
-          name: build-output
-
+          name: full-workspace
       - name: Run Tests
-        run: dotnet test --configuration Release --no-build --verbosity normal
-
+        run: dotnet test --configuration Release --no-build
+          
   publish:
     runs-on: ubuntu-latest
     needs: test
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.x'
-
-      - name: Download Build Artifacts
+      - name: Download Workspace
         uses: actions/download-artifact@v4
         with:
-          name: build-output
+          name: full-workspace
 
       - name: Pack
         run: |

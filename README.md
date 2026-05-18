@@ -11,6 +11,8 @@ This library provides simple evaluation of hardware components, so it can be use
   - [Components](#components)
   - [RankEvaluator](#rankevaluator)
     - [How it works](#how-it-works)
+  - [Compatibility Evaluator](#compatibility-evaluator)
+    - [How it works](#how-it-works-1)
   - [Usage Examples](#usage-examples)
 
 ## Installation
@@ -53,7 +55,7 @@ The evaluator calculates a score by normalizing key performance metrics against 
 - **0**: Represents the lowest possible score.
 - **100**: Represents the highest possible score (top-tier performance).
 
-Each component type has a specific ranking method:
+Methods:
 - `RankCpu(CPU cpu)`
 - `RankGpu(GPU gpu)`
 - `RankRam(RAM ram)`
@@ -62,6 +64,32 @@ Each component type has a specific ranking method:
 - `RankPsu(PowerSupply psu)`
 - `RankCooler(Cooler cooler)`
 - `RankFan(Fan fan)`
+
+## Compatibility Evaluator
+
+The `Core.CompatibilityEvaluator` class provides methods that checks compatibility between PC components. 
+
+### How it works
+
+The evaluator returns a boolean `True` if components are compatible with each other, `False` otherwise.
+
+Methods:
+- `CompareCaseMotherBoardFormFactor(Case @case, Motherboard motherboard)`
+- `CompareCaseMotherBoardFormFactor(string[] caseMbFormFactors, string motherboardFormFactor)`
+- `CompareCasePsuFormFactor(Case @case, PowerSupply psu)`
+- `CompareCaseGpuLength(Case @case, GPU gpu)`
+- `CompareCaseGpuLength(double caseMaxGpuLengthmm, double gpuLengthmm)`
+- `CompareCaseCoolerType(Case @case, Cooler cooler)`
+- `CompareCoolerRamTypeClearance(Cooler cooler, RAM ram)`
+- `CompareCpuMotherboardSockets(CPU cpu, Motherboard motherboard)`
+- `CompareCpuMotherboardSockets(string cpuSocket, string motherboardSocket)`
+- `CompareGpuPsuWatts(GPU gpu, PowerSupply psu)`
+- `CompareGpuPsuWatts(double gpuWatts, double psuWatts)`
+- `CompareAllToPsuWatts(CPU cpu, GPU gpu, Motherboard motherboard, PowerSupply psu)`
+- `CompareAllToPsuWatts(CPU cpu, GPU gpu, Motherboard motherboard, PowerSupply psu, double? customAdditionalWatts)`
+- `CompareRamMotherboardMemoryType(RAM ram, Motherboard motherboard)`
+- `CompareRamMotherboardMemoryType(string ramType, string motherboardRamType)`
+- `GetGpuMotherboardPcieInterfacesScore(GPU gpu, Motherboard motherboard)`
 
 ## Usage Examples
 
@@ -165,6 +193,41 @@ public async Task RankPsuViaApi()
     Console.WriteLine($"API-ranked PSU Score: {psuResult.Score:F2}");
     if (psuResult.Score >= 90) Console.WriteLine("Top-tier!");
 }
+```
+
+</details>
+
+<details>
+<summary>### 5. Compare CPU and Motherboard sockets(Click to view example)</summary>
+
+```charp
+CPU intelCpu = new()
+{
+    Name = "Intel Core i7-14700K",
+    Socket = "LGA1700",
+    Cores = 20,
+    Threads = 28,
+    BaseClockGhz = 3.4,
+    TurboClockGhz = 5.6,
+    CacheSize = 33
+};
+
+Motherboard motherboard = new()
+{
+    Name = "ASUS ROG STRIX B650E-F",
+    Socket = "am5",
+    FormFactor = MbFormFactor.ATX,
+    Chipset = "B650E",
+    MemoryType = MemoryType.DDR5,
+    MaxMemoryCapacity = 128,
+    PCIEVersion = PCIeVersion.Gen5,
+    PcieLanes = 16,
+    M2Slots = 4
+};
+
+CompatibilityService compatibilityService = new();
+bool isCompatible = compatibilityService.CompareCpuMotherboardSockets(intelCpu, motherboard);
+Console.WriteLine($"Compatible: {(isCompatible ? "Yes" : "No")}");
 ```
 
 </details>

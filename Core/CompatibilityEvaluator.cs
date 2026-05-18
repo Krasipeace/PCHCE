@@ -204,7 +204,7 @@ public class CompatibilityEvaluator
     /// </summary>
     /// <param name="gpu">The GPU object input</param>
     /// <param name="motherboard">The Motherboard object input</param>
-    /// <returns>Returns score from 0(worst) to 100(best). Also returns 0 if any of the input objects are null.</returns>
+    /// <returns>Returns score from 0(worst) to 100(best).</returns>
     public double GetGpuMotherboardPcieInterfacesScore(GPU gpu, Motherboard motherboard)
     {
         if (gpu?.LanesNeeded == null || motherboard?.PcieLanes == null) return 0;
